@@ -458,6 +458,11 @@ sudo apt-get -y install libcupti-dev			#NVIDIA CUPTI
 sudo apt-get -y install libarmadillo-dev		#Armadillo
 
 
+#Argtable 2: ANSI C library for parsing GNU-style command-line options
+#http://argtable.sourceforge.net
+sudo apt-get install libargtable2-dev           #argtable2
+
+
 #Ruby scripting language.
 #Required by other installs (e.g., TeXLive).
 sudo apt-get -y install ruby					#Ruby
