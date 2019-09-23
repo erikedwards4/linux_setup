@@ -1,13 +1,13 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #Run this script after setup1-7.
 #This script installs Linux software more advanced/specialized ML (machine learning) and NNs (neural networks),
 #where the install requires download, configure, make (as opposed to sudo apt-get install).
 #Since new ML/NN software comes out very often, this will be a work in progress.
 #
-#
 #For each tool, I provide references and/or the main website.
-#
-#Coded by: Erik Edwards, Oct 2018.
 
 
 tooldir=/opt		#Each user can change this

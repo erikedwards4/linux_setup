@@ -1,4 +1,7 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #Run this script after setup1-2.
 #This script installs Linux utilities for statistics and basic ML (machine learning).
 #This includes some NN (neural network) software from general ML packages,
@@ -9,8 +12,6 @@
 #Unwanted packages can be commented out.
 #
 #For each tool, I provide references and/or the main website.
-#
-#Coded by: Erik Edwards, Oct 2018.
 
 
 tooldir=/opt					                #Each user can change this

@@ -1,4 +1,7 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #This script installs further general utilities and software,
 #but now considering some specialized and less universally-used tools.
 #
@@ -19,7 +22,6 @@
 #As the expression says, we stand on the shoulders of giants...
 #For further information on any tool, search Google, Wikipedia, or the Free Software Directory (https://directory.fsf.org).
 #
-#Coded by: Erik Edwards, Oct 2018.
 
 
 #Basic Linux dependencies

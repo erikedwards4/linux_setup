@@ -1,4 +1,7 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #Run this script after setup1.
 #This script installs Linux utilities for graphics and image processing.
 #Some are installed during setup1_basic_dependencies.sh, 
@@ -11,8 +14,6 @@
 #
 #For each tool, I provide references and/or the main website.
 #For further information on any tool, search Google, Wikipedia, or the Free Software Directory (https://directory.fsf.org).
-#
-#Coded by: Erik Edwards, Oct 2018.
 
 
 #Libraries for common image formats: JPEG, GIF, TIFF, PNG

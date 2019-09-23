@@ -1,4 +1,7 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #Run this script after setup1-2.
 #This script installs Linux utilities for audio and video processing.
 #This is mostly meant for audio, and some video already done in setup3_images_graphics.sh.
@@ -11,7 +14,7 @@
 #For each tool, I provide references and/or the main website.
 #For further information on any tool, search Google, Wikipedia, or the Free Software Directory (https://directory.fsf.org).
 #
-#Coded by: Erik Edwards, Oct 2018.
+
 
 #OSS: Open Sound System (audio subsystem API and device drivers)
 #OSS v. 3 was the original sound system for Linux.

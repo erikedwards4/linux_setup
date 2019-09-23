@@ -1,4 +1,7 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #Run this script after setup1-2.
 #This script installs Linux utilities for IE (information extraction) and NLP (natural language processing).
 #Some are installed during setup1_basic_dependencies.sh, but are included here so all IE/NLP utilities can be seen.
@@ -6,8 +9,6 @@
 #Unwanted packages can be commented out.
 #
 #For each tool, I provide references and/or the main website.
-#
-#Coded by: Erik Edwards, Oct 2018.
 
 
 tooldir=/opt				#Each user can change this

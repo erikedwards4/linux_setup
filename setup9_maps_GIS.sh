@@ -1,6 +1,9 @@
 #!/bin/bash
+#@author Erik Edwards
+#@date 2018-2019
+#
 #This adds tools related to maps and GIS (geospatial information systems):
-
+#
 #This is not complete... see TOC of Lawhead [2013] for example.
 #And: Koranne S. 2011. Handbook of open source tools. New York: Springer.
 
