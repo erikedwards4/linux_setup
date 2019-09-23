@@ -236,6 +236,7 @@ sudo apt-get -y install graphviz				#Graphviz graph visualization tools
 #Phillips L. 2017. Gnuplot 5: Alogus Publishing.
 #http://www.gnuplot.info
 sudo apt-get -y install gnuplot					#GNUplot (currently version 5.2.2)
+sudo apt-get -y install gnuplot-x11             #GNUplot with X11 windows system
 #sudo apt-get -y install gnuplot-tex				#GNUplot TeX file support
 #sudo apt-get -y install feedgnuplot				#pipe-oriented frontend to GNUplot
 #sudo apt-get -y install libgnuplot-iostream-dev	#GNUplot programming interface for C++

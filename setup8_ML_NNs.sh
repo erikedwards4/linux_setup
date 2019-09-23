@@ -94,6 +94,19 @@ chmod -R 777 "$tooldir"/ASA
 #There does not appear to be any install (header-only library?)
 
 
+#SigPack: the C++ signal processing library
+#http://sigpack.sourceforge.net
+wget -P /opt https://sourceforge.net/projects/sigpack/files/sigpack-1.2.6.zip
+unzip "$tooldir"/sigpack-1.2.6.zip
+rm "$tooldir"/sigpack-1.2.6.zip
+mv "$tooldir"/demo_c++ "$tooldir"/sigpack
+mv "$tooldir"/demo_matlab "$tooldir"/sigpack
+mv "$tooldir"/doc "$tooldir"/sigpack
+mv "$tooldir"/test "$tooldir"/sigpack
+mv "$tooldir"/README.txt "$tooldir"/sigpack
+chmod -R 777 "$tooldir"/sigpack
+
+
 #Classias: ML algorithms for classification in C++ (from maker of widely-used L-BFGS lib)
 #Simple headers, good command-line tools, modified (2-clause) BSD license.
 #L1/L2 logistic regression, SVM, averaged perceptron.

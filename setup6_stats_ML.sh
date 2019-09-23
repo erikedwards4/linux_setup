@@ -186,6 +186,7 @@ sudo apt-get -y install weka				#WEKA
 #Curtin RR, ..., Gray AG. 2013. MLPACK: a scalable C++ machine learning library. J Mach Learn Res. 14: 801-805.
 #Curtin RR, ..., Zhang S. 2018. mlpack 3: a fast, flexible machine learning library. J Open Source Softw. 3:26.
 #https://www.mlpack.org
+sudo apt-get -y install mlpack-bin		    #MLPACK
 sudo apt-get -y install libmlpack-dev		#MLPACK
 
 
