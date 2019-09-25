@@ -46,6 +46,25 @@ chmod -R 777 "$tooldir"/ensmallen-2.10.0
 #This seems overly complex, so will reconsider later.
 
 
+#MLPACK: Machine Learning package in C/C++ (3-clause BSD license).
+#Built on Armdillo, ensmallen (optimization), and parts of Boost.
+#Fast, flexible; many of the tools have command-line versions. Also Python.
+#Curtin RR, ..., Gray AG. 2013. MLPACK: a scalable C++ machine learning library. J Mach Learn Res. 14: 801-805.
+#Curtin RR, ..., Zhang S. 2018. mlpack 3: a fast, flexible machine learning library. J Open Source Softw. 3:26.
+#https://www.mlpack.org
+#The basic (older) version is installed previously (setup6).
+cd /opt
+wget -P /opt https://www.mlpack.org/files/mlpack-3.1.1.tar.gz
+tar -xvzpf /opt/mlpack-3.1.1.tar.gz
+rm /opt/mlpack-3.1.1.tar.gz
+chmod -R 777 mlpack*
+mkdir -m 777 /opt/mlpack-3.1.1/build
+cd /opt/mlpack-3.1.1/build
+cmake ../
+make -j4    #j is number of cores you want to use for a build
+sudo make install
+
+
 #S-Lang: interpreted language embedded into applications (i.e., GAUL below)
 #for interactions (mouse, keyboard, etc.). Under the GPL.
 #http://www.linuxfromscratch.org/blfs/view/svn/general/slang.html
@@ -95,6 +114,7 @@ chmod -R 777 "$tooldir"/ASA
 
 
 #SigPack: the C++ signal processing library
+#Has usual spectrogram and such, but noteworthy for Kalman filters and adaptive filters.
 #http://sigpack.sourceforge.net
 wget -P /opt https://sourceforge.net/projects/sigpack/files/sigpack-1.2.6.zip
 unzip "$tooldir"/sigpack-1.2.6.zip
@@ -107,24 +127,101 @@ mv "$tooldir"/README.txt "$tooldir"/sigpack
 chmod -R 777 "$tooldir"/sigpack
 
 
-#Classias: ML algorithms for classification in C++ (from maker of widely-used L-BFGS lib)
+#libLBFGS: C++ library of Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)
+#method for unconstrained minimization when only F(x) and G(x) are computable.
+#Also implements orthant-wise quasi-Newton (OWL-QN) method [Andrew and Gao 2007].
+#The Ubuntu install is already done, but in case more is needed.
+#This is dependency for several toolboxes below.
+#Used by CRFsuite, Classias, lbfgs (R lib), mlegp (R lib for GPs), imaging2.
+#Nocedal J. 1980. Updating quasi-Newton matrices with limited storage. Math Comput. 35(151): 773-82.
+#Liu DC, Nocedal J. 1989. On the limited memory BFGS method for large scale optimization. Math Program B. 45(3): 503-28.
+#Dennis JE, Schnabel RB. 1983. Numerical methods for unconstrained optimization and nonlinear equations. Prentice-Hall.
+#Andrew G, Gao J. 2007. Scalable training of L1-regularized log-linear models. Proc ICML: 33-40.
+#http://www.chokkan.org/software/liblbfgs/
+cd /opt
+wget -P /opt https://github.com/downloads/chokkan/liblbfgs/liblbfgs-1.10.tar.gz
+tar -xzf /opt/liblbfgs-1.10.tar.gz
+rm /opt/liblbfgs-1.10.tar.gz
+chmod -R 777 /opt/liblbfgs-1.10
+cd /opt/liblbfgs-1.10
+./configure
+make
+make check
+sudo make install
+chmod -R 777 /opt/liblbfgs-1.10
+sudo ln -s /opt/liblbfgs-1.10/.libs/liblbfgs-1.10.so /usr/lib/liblbfgs-1.10.so
+sudo ln -s /opt/liblbfgs-1.10/.libs/liblbfgs.so /usr/lib/liblbfgs.so
+
+
+#Classias: ML algorithms for classification in C++ 
 #Simple headers, good command-line tools, modified (2-clause) BSD license.
 #L1/L2 logistic regression, SVM, averaged perceptron.
+#From maker of widely-used L-BFGS lib
 #http://www.chokkan.org/software/classias
-cd "$toolir"
-wget http://www.chokkan.org/software/dist/classias-1.1.tar.gz
-tar -xzf "$tooldir"/classias-1.1.tar.gz
-rm "$tooldir"/classias-1.1.tar.gz
-chmod -R 777 "$tooldir"/classias-1.1
-cd "$tooldir"/classias-1.1
+cd /opt
+wget -P /opt http://www.chokkan.org/software/dist/classias-1.1.tar.gz
+tar -xzf /opt/classias-1.1.tar.gz
+rm /opt/classias-1.1.tar.gz
+chmod -R 777 /opt/classias-1.1
+cd /opt/classias-1.1
+./configure
+sed -i 's|int ret = lbfgs_solve|int ret = this->lbfgs_solve|g' /opt/classias-1.1/include/classias/train/lbfgs.h
+make
+sudo make install
+sudo chmod -R 777 /opt/classias-1.1
+
+
+#CRFSuite: fast C++ implementation of Conditional Random Fields (CRFs)
+#Linear-chain (1st-order Markov) CRFs.
+#Excellent training methods, simple command-line use, performance evaluation.
+#From maker of widely-used L-BFGS lib
+#http://www.chokkan.org/software/crfsuite
+wget -P /opt https://github.com/downloads/chokkan/crfsuite/crfsuite-0.12.tar.gz
+tar -xzf /opt/crfsuite-0.12.tar.gz
+rm /opt/crfsuite-0.12.tar.gz
+chmod -R 777 crfsuite*
+cd /opt/crfsuite-0.12
 ./configure
 make
 sudo make install
-sudo chmod -R 777 "$tooldir"/classias-1.1
+sudo ln -s /usr/local/lib/libcrfsuite-0.12.so /usr/lib/libcrfsuite-0.12.so
+sudo ln -s /usr/local/lib/libcqdb-0.12.so /usr/lib/libcqdb-0.12.so
+sudo ln -s /usr/local/bin/crfsuite /usr/bin/crfsuite-stdin
 
-#
-#I am currently here: currently Classias install fails
-#
+
+#CRF++: yet-another CRF toolkit, in C++ (under either LGPL or 2-clause BSD).
+#Has simple command-line tools crf_learn and crf_test.
+#Has simple opt for number of processors (CRFSuite has no easy parallel option).
+#Allows bigram features by setting.
+#https://taku910.github.io/crfpp
+#Get tar.gz file from website, put into /opt.
+cd /opt
+tar -xzf /opt/CRF++-0.58.tar.gz
+rm /opt/CRF++-0.58.tar.gz
+chmod -R 777 /opt/CRF++-0.58
+cd /opt/CRF++-0.58
+./configure
+make
+make check
+sudo make install
+sudo ln -s /opt/CRF++-0.58/.libs/libcrfpp.so.0 /usr/lib/libcrfpp.so.0
+chmod -R 777 /opt/CRF++-0.58
+
+
+#SVMlight: SVM in C, with fast optimization algorithm,
+#and efficient leave-one-out estimates of error rate, precision, recall.
+#For regression and classification; can train SVMs with cost models and example-dependent costs
+#Handles 1000s of SVs and 100000s of training examples.
+#(Suggested by Classias website) (but no particular licence)
+#Joachims T [1999], Making large-scale SVM learning practical. In Schulkopf et al., eds. Cambridge: MIT Press.
+#http://svmlight.joachims.org
+
+
+#SVMperf: SVM for multivariate performance measures
+#(Suggested by Classias website) (but no particular licence)
+#http://www.cs.cornell.edu/people/tj/svm_light/svm_perf.html
+
+
 
 #Caffe: deep learning framework in C++ (2-clause BSD licence).
 #Has API with function list; excellent speed; background is computer vision.

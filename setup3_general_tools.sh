@@ -48,6 +48,11 @@ sudo apt-get -y install vim-gtk					#Vim-GTK
 #sudo apt-get -y install gedit					#gedit (GNOME text editor)
 
 
+#txt2man: converts ASCII text to manpage format (used by other programs)
+#https://github.com/mvertes/txt2man
+sudo apt-get -y install txt2man                 #txt2man
+
+
 #PostgreSQL: heavier SQL database, open-source, one of the original SQL databases (1980s origins)
 #Stonebraker MR, Rowe LA, Hirohama M. 1990. The implementation of POSTGRES. IEEE Trans Knowl Data Eng 2(1): 125-142.
 #https://www.postgresql.org
