@@ -2,10 +2,11 @@
 #@author Erik Edwards
 #@date 2018-2019
 #
-#Run this script after setup1-7.
-#This script installs Linux software more advanced/specialized ML (machine learning) and NNs (neural networks),
-#where the install requires download, configure, make (as opposed to sudo apt-get install).
+#Run this script only after setup1-7.
+#This script installs more advanced/specialized ML (machine learning) and NN (neural network) toolkits.
+#For these, the install requires download, configure, make (as opposed to sudo apt-get install).
 #Since new ML/NN software comes out very often, this will be a work in progress.
+#This also includes any further optimization libraries or toolkits.
 #
 #For each tool, I provide references and/or the main website.
 
@@ -43,7 +44,7 @@ chmod -R 777 "$tooldir"/ensmallen-2.10.0
 # -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_ilp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group -liomp5 -lpthread -lm -ldl
 #where MKLROOT=/opt/intel/mkl
 #And this compiler options: -DMKL_ILP64 -m64 -I${MKLROOT}/include
-#This seems overly complex, so will reconsider later.
+#This seems overly complex, so will reconsider later...
 
 
 #MLPACK: Machine Learning package in C/C++ (3-clause BSD license).
@@ -110,7 +111,7 @@ unzip "$tooldir"/ASA-30.29.zip
 rm "$tooldir"/ASA-30.29.zip
 cd "$tooldir"/ASA
 chmod -R 777 "$tooldir"/ASA
-#There does not appear to be any install (header-only library?)
+#There does not appear to be any install, so header-only library
 
 
 #SigPack: the C++ signal processing library
@@ -156,7 +157,8 @@ sudo ln -s /opt/liblbfgs-1.10/.libs/liblbfgs.so /usr/lib/liblbfgs.so
 #Classias: ML algorithms for classification in C++ 
 #Simple headers, good command-line tools, modified (2-clause) BSD license.
 #L1/L2 logistic regression, SVM, averaged perceptron.
-#From maker of widely-used L-BFGS lib
+#Binary, multi-class, and candidate classification. The later is really important, check it out!
+#From maker of widely-used L-BFGS lib.
 #http://www.chokkan.org/software/classias
 cd /opt
 wget -P /opt http://www.chokkan.org/software/dist/classias-1.1.tar.gz

@@ -2,11 +2,8 @@
 #@author Erik Edwards
 #@date 2018-2019
 #
-#Run this script after setup1-2.
-#This script installs Linux utilities for IE (information extraction) and NLP (natural language processing).
-#Some are installed during setup1_basic_dependencies.sh, but are included here so all IE/NLP utilities can be seen.
-#
-#Unwanted packages can be commented out.
+#This script installs Linux utilities for ASR (automatic speech recognition), IE (information extraction),
+#NLP (natural language processing), and machine translation (MT), including neural MT and general sequence-to-sequence.
 #
 #For each tool, I provide references and/or the main website.
 
@@ -260,39 +257,57 @@ sudo make install
 chmod -R 777 "$tooldir"/mgiza
 
 
-#xmlrpc-c (for Moses server)
-if false
-then
-	cd "$tooldir"
-	git clone https://github.com/ensc/xmlrpc-c
-	chmod -R 777 "$tooldir"/xmlrpc-c
-	cd xmlrpc-c
-	./configure
-	make
-	sudo make install
-	chmod -R 777 "$tooldir"/xmlrpc-c
-
-	#libwww (for Moses server)
-	cd "$tooldir"
-	git clone https://github.com/w3c/libwww
-	chmod -R 777 "$tooldir"/libwww
-	cd libwww
-	autoreconf -i
-	./configure
-	make
-	sudo make install
-	chmod -R 777 "$tooldir"/libwww
-fi
-
-
 #Moses
-#I don't have IRSTLM working yet...
-cd "$tooldir"
-git clone https://github.com/moses-smt/mosesdecoder.git
-chmod -R 777 "$tooldir"/mosesdecoder
-cd mosesdecoder
-./bjam --with-boost="$tooldir"/boost_1_67_0 --with-cmph="$tooldir"/cmph --no-xmlrpc-c #--with-irstlm="$tooldir"/irstlm
-chmod -R 777 "$tooldir"/mosesdecoder
+#Requires IRSTLM; skip for now
+#cd "$tooldir"
+#git clone https://github.com/moses-smt/mosesdecoder.git
+#chmod -R 777 "$tooldir"/mosesdecoder
+#cd mosesdecoder
+#./bjam --with-boost="$tooldir"/boost_1_67_0 --with-cmph="$tooldir"/cmph --no-xmlrpc-c #--with-irstlm="$tooldir"/irstlm
+#chmod -R 777 "$tooldir"/mosesdecoder
+
+
+#Most-known neural attention-based MT frameworks, Nematus and OpenNMT:
+
+#Nematus: built on TensorFlow (BSD 3-clause license)
+#https://github.com/EdinburghNLP/nematus
+
+#OpenNMT: built on TensorFlow or PyTorch (MIT license)
+#Has a relatively general-purpuse im2text system, for seq2seq variants such as image-to-text
+#http://opennmt.net
+
+
+
+#MARIAN-NMT: Marian Neural Machine Translation in C++ (MIT license).
+#Fast; allows multi-CPU and multi-GPU, has excellent command-line tools.
+#State-of-the-art NMT architectures: deep RNN and transformer.
+#Regularization methods, transfer learning from monolingual data and pre-trained word2vec.
+#Sentence-level and word-level data weighting.
+#Guided alignment for attention, and training on raw texts possible (using SentencePiece).
+#https://marian-nmt.github.io/
+
+
+#CytonMT: really fast neural MT in C++ (Apache 2.0 license).
+#With NVIDIA GPUs, this is the very fastest and best code available to my knowledge.
+#Gives command-line tool cytonMt, with --mode {train,translate}
+#Wang X, Utiyama M, Sumita E. 2018. CytonMT: an efficient neural machine translation open-source toolkit implemented in C++. arXiv: 1802.07170(v2): 1-6.
+#https://github.com/arthurxlw/cytonMt
+
+
+#seq2seq: general-purpose encoder-decoder framework for TensorFlow (Apache 2.0)
+#Britz et al. 2017.
+#https://github.com/google/seq2seq
+
+
+#fairseq-py: convS2S (convolutional sequence-to-sequence) for neural MT from Facebook for PyTorch (MIT license)
+#Gehring et al. 2017.
+#https://github.com/pytorch/fairseq
+
+
+#tensor2tensor: library of deep-learning models from Google Brain for TensorFlow (Apache 2.0)
+#Viswani et al. 2017.
+#https://github.com/tensorflow/tensor2tensor
+
 
 
 #gnuspeech
