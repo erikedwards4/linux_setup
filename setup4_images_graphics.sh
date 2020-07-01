@@ -254,8 +254,16 @@ sudo apt-get -y install python3-matplotlib		#Python 3 Matplotlib plotting librar
 sudo apt-get -y install python3-pil				#Python 3 Imaging Library (PIL)
 
 
-#Pillow: Improved PIL (currently must build from source, so consider later)
+#Pillow: Improved PIL
 #https://pillow.readthedocs.io
+python -m pip install --user Pillow
+python -m pip install --user --upgrade Pillow
+
+
+#blockdiag: simple block-diagram image generator
+#This is super cool! Used by PyTorch-Kaldi.
+#http://blockdiag.com/en
+python -m pip install --user --upgrade blockdiag
 
 
 #Python Myavi (for 2D and 3D scientific visualization and graphics).
@@ -315,6 +323,7 @@ sudo apt-get -y install mesa-utils				#Mesa 3D graphics
 #Requires OpenCL and a variety of other dependencies (https://www.learnopencv.com/install-opencv3-on-ubuntu).
 #https://opencv.org
 sudo apt-get -y install libopencv*				#OpenCV
+sudo apt-get install python-opencv              #OpenCV for Python
 
 
 #CImg: C++ Image Processing Toolkit

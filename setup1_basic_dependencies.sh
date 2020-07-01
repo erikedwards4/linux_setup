@@ -75,7 +75,7 @@ sudo apt-get -y install zlib1g-dev				#most used compression library
 sudo apt-get -y install zip unzip				#zip/unzip (probably already installed)
 sudo apt-get -y install xz-utils				#XZ-format compression utility
 sudo apt-get -y install liblzma-dev				#XZ-format compression library
-sudo apt-get -y install p7zip					#7zr archiver
+sudo apt-get -y install p7zip-full				#7zr archiver
 sudo apt-get -y install libbz2-dev				#block-sorting file compressor library
 sudo apt-get -y install bzip2					#block-sorting file compressr utility
 sudo apt-get -y install libsnappy-dev			#fast compression/decompression library from Google (optimized for speed, not compression ratio)
@@ -314,12 +314,15 @@ sudo apt-get -y install tk						#Toolkit for Tcl and X11 windowing (also install
 #https://libexpat.github.io
 #https://launchpad.net/intltool
 #https://metacpan.org/pod/SOAP::Lite
-sudo apt-get -y install libxml2					#C XML parser and toolkit (from Gnome project)
+#https://pagure.io/xmlto
+sudo apt-get -y install libxml2-dev				#C XML parser and toolkit (from Gnome project)
+sudo apt-get -y install libxml2-utils			#includes xmllint
 sudo apt-get -y install libexpat1-dev			#C XML parser (stream-oriented XML parser)
 sudo apt-get -y install expat					#C XML parser (stream-oriented XML parser)
 sudo apt-get -y install intltool				#Internationalizing tool for XML
 sudo apt-get -y install libsoap-lite-perl		#Perl implementation of SOAP (Simple Object Access Protocol): cross-platform XML communication
-
+sudo apt-get -y install xml2                    #converter (xml,html,csv) based on libxml2
+#sudo apt-get -y install xmlto                   #xml-to-any converter (but huge set of dependencies and not clear how to use)
 
 #ICU (International Components for Unicode)
 #Standard for ~100k international characters.
@@ -456,6 +459,7 @@ sudo apt-get -y install libcupti-dev			#NVIDIA CUPTI
 
 #Armadillo: streamlined, template-based C++ linear algebra library (meant to resemble Matlab, used by MLPACK)
 #Sanderson C, Curtin R. 2016. Armadillo: a template-based C++ library for linear algebra. J Open Source Softw 1(2): 26, 1-2.
+#Sanderson C, Curtin R. 2019. Practical sparse matrices in C++ with hybrid storage and template-based expression optimisation. Math Comput Appl 24(3).
 #http://arma.sourceforge.net
 sudo apt-get -y install libarmadillo-dev		#Armadillo
 
@@ -485,6 +489,13 @@ sudo apt-get -y install libfreetype6			#FreeType font library
 #http://tug.org
 sudo apt-get -y install tex-common				#common infrastructure for TeX
 sudo apt-get -y install texinfo					#documentation system for TeX
+
+
+#OpenCL: Open Computing Language, a C-like language for executing on heterogeneous platforms.
+#This is used extensively by other software (ArrayFire, etc.)
+#https://www.khronos.org/opencl
+sudo apt-get install opencl-headers             #OpenCL headers (C and C++)
+sudo apt-get install python3-pyopencl           #Python3 module to access OpenCL
 
 
 #Clang: compiler front-end for C family languages (C/C++, Objective C/C++, OpenMP, OpenCL, CUDA)

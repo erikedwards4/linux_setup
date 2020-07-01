@@ -30,6 +30,13 @@
 #sudo apt -y autoremove							#automatically removes packages that are no longer required
 
 
+#Cereal serialization C++ library
+#https://uscilab.github.io/cereal
+cd /opt
+git clone https://github.com/USCiLab/cereal
+chmod -R 777 /opt/cereal
+
+
 #Lua scripting language (small footprint C code, so doesn't take much space)
 #Ierusalimschy R, de Figueiredo LH, Filho WC. 1996. Lua – an extensible extension language. Softw Pract Exp 26(6):635-652.
 #Ierusalimschy R. 2016. Programming in Lua, 4th Ed. Rio de Janeiro, Brazil: lua.org.
@@ -96,6 +103,12 @@ sudo apt-get -y install ghostscript-x			#adds PDF-X11 libraries
 #https://www.tug.org/texlive
 sudo apt-get -y install texlive					#TeX Live distribution of LaTeX
 sudo apt-get -y install texlive-bibtex-extra	#TeX Live BibTeX additional styles
+
+
+#bibutils: converts to/from .bib files and .xml, etc.
+#https://sourceforge.net/p/bibutils/home/Bibutils
+#http://bibutils.refbase.org
+sudo apt-get -y install bibutils                #bibutils
 
 
 #bibtexconv: BibTeX Converter (to XML, text).
@@ -200,11 +213,69 @@ sudo apt-get -y install python3-six				#Python 2,3 compatibility library
 #sudo apt-get -y install ipython3-notebook		#Python 3 interactive HTML notebook (this didn't work)
 
 
+#Jupyter notebooks
+#https://jupyter.org/
+sudo apt-get -y install jupyter-core            #Python core for Jupyter projects
+sudo apt-get -y install python3-jupyter-core    #Python 3 core for Jupyter projects
+sudo apt-get -y install jupyter                 #Jupyter
+#pip install bash_kernel                         #Bash kernel (e.g., for Jupyter)
+#pip3 install bash_kernel                        #Bash kernel (e.g., for Python 3 Jupyter)
+#python3 -m bash_kernel.install                  #IPython bash kernel
+
+
 #Python3 agate: data analysis library optimized for human readability
 #Used below by e.g. python3-csvkit
 #https://agate.readthedocs.io
-#sudo apt-get -y install python3-agate			#Python3 agate
-#sudo apt-get -y install python3-agatedbf python3-agateexcel python3-agatesql
+sudo apt-get -y install python3-agate			#Python3 agate
+sudo apt-get -y install python3-agatedbf python3-agateexcel python3-agatesql
+
+
+#Make sure python is python3, and upgrade pip
+#Always call pip with python -m pip!
+update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+#use python --version to confirm python3
+cd /opt
+mkdir -m 777 /opt/pip
+curl https://bootstrap.pypa.io/get-pip.py -o /opt/pip/get-pip.py
+chmod -R 777 /opt/pip
+cd /opt/pip
+python /opt/pip/get-pip.py
+#Should now be version 20 or higher
+#For future upgrades, use: python -m pip install -U pip
+
+
+#Python setuptools
+#Always call pip with python -m pip!
+sudo apt-get -y install python3-widgetsnbextension
+sudo apt-get -y install python3-testresources
+sudo apt-get -y install python3-setuptools
+python -m pip install --upgrade setuptools
+
+
+#CuPy: NumPy-like API accelerated with CUDA
+#CuPy is an implementation of NumPy-compatible multi-dimensional array on CUDA.
+#https://pypi.org/project/cupy
+python -m pip install --user cupy
+
+
+#H5py: Python interface to HDF5 binary format
+#Collette A. (2013). Python and HDF5. Sebastopol: O'Reilly
+#http://www.h5py.org
+python -m pip install --user --upgrade h5py
+
+
+#mpi4py: MPI for Python
+#Dalcin L, Paz R, Storti M. (2005). MPI for Python. J Parallel Distrib Comput. 65(9): 1108-15.
+#Dalcin L, Paz R, Storti M, D'Elia J. (2008). MPI for Python: performance improvements and MPI-2 extensions. J Parallel Distrib Comput. 68(5): 655-62.
+#Dalcin L, Kler P, Raz R, Cosimo A. (2011). Parallel distributed computing using Python. Adv Water Resour. 34(9): 1124-39.
+#https://mpi4py.readthedocs.io/en/stable
+python -m pip install --user --upgrade mpi4py
+
+
+#Flask: Python framework for making web apps. Very widely used, easy to use.
+#https://flask.palletsprojects.com
+sudo apt-get -y install python3-flask           #Python 3 Flask, for making web apps
+python -m pip install --user flask              #Flask
 
 
 #csvtool: toolkit for csv (comma-separated values) files
@@ -217,6 +288,7 @@ sudo apt-get -y install csvtool
 #This gives command-line tools: in2csv, csvcut, csvgrep, csvstat, csvjson, csvsql, sql2csv
 #Janssens JHM. 2014. Data science at the command line. Sebastopol, CA: O'Reilly.
 #https://csvkit.readthedocs.io/en/1.0.3
+sudo apt-get -y install csvkit			        #csvkit
 sudo apt-get -y install python3-csvkit			#csvkit for Python3
 
 
@@ -261,8 +333,25 @@ sudo apt-get -y install libglpk-dev				#GLPK
 #https://octave.sourceforge.io
 sudo apt-get -y install octave					#GNU Octave
 sudo apt-get -y install octave-general			#extra general functions for Octave
+sudo apt-get -y install octave-io			    #extra i/o functions for Octave
+sudo apt-get -y install octave-nan			    #NaN functions for Octave
 sudo apt-get -y install octave-gsl				#GNU scientific library (GSL) bindings for Octave
-sudo apt-get -y install octave-statistics		#Statistics package for Octave
+sudo apt-get -y install octave-statistics		#Statistics package
+sudo apt-get -y install octave-specfun	    	#Special-functions package
+sudo apt-get -y install octave-data-smoothing	#Functions to do data smoothing on noisy data
+sudo apt-get -y install octave-divand       	#N-dimensional interpolation
+
+
+#Octave packages for DSP and related
+#http://biosig.sourceforge.net
+sudo apt-get -y install octave-control          #Control package
+sudo apt-get -y install octave-signal		    #Signal package
+sudo apt-get -y install octave-tsa		        #Time-series analysis package
+sudo apt-get -y install octave-tisean		    #Nonlinear time-series analysis package
+sudo apt-get -y install octave-biosig		    #BioSig package (from Austria, see also biosig4c++ for C++)
+sudo apt-get -y install octave-ltfat*		    #Large time-frequency analysis package
+sudo apt-get -y install octave-communications*  #Communications package
+sudo apt-get -y install octave-ocs	    	    #Octave Circuit simulator package
 
 
 #R statistical computing language
@@ -397,10 +486,24 @@ sudo apt-get -y install libreoffice-common		#LibreOffice common files
 
 
 #JabRef: Java bibliography reference manager, focused on BibTeX format, open-source.
-#Excellent features/functionality (best bibliography program in my opinion).
+#Excellent features/functionality.
 #Installs a long list of Java dependencies (only drawback, but good to have dependencies for other Java apps).
 #http://www.jabref.org
 sudo apt-get -y install jabref 					#JabRef
+
+
+#Zotero: bibliography reference manager, open-source.
+#Seems like passionate team (always making it better), advertise privacy.
+#Interface is much nicer and easier to use at first than JabRef.
+#https://www.zotero.org
+wget -qO- https://github.com/retorquere/zotero-deb/releases/download/apt-get/install.sh | sudo bash
+sudo apt-get update
+sudo apt-get install zotero                    #Zotero
+
+
+#htop: like top to monitor system
+#https://hisham.hm/htop/
+sudo apt-get -y install htop
 
 
 #s3cmd: command-line utility for AWS (this requires brief interaction)
@@ -430,11 +533,19 @@ sudo apt-get -y install intel-mpi-2019.4-070
 sudo apt-get -y install intelpython2
 sudo apt-get -y install intelpython3
 
+exit
+
+#PyCharm from JetBrains
+#IDE for Python
+cd /opt
+sudo snap install pycharm-community --classic
+tar xfz /opt/pycharm-*.tar.gz -C /opt/pycharm
+cd /opt/pycharm/bin
+sh pycharm.sh
+
 
 #Some dependencies for Docker (probably already installed, but will upgrade)
 sudo apt-get -y install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-
-exit
 
 #Docker: most widely-used container application, written in Go
 #Anderson C. 2015. Docker. IEEE Softw. 32(3): 102-103.

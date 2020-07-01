@@ -2,7 +2,7 @@
 #@author Erik Edwards
 #@date 2018-2019
 #
-#Run this script only after setup1-7.
+#Run this script only after setup1-6.
 #This script installs more advanced/specialized ML (machine learning) and NN (neural network) toolkits.
 #For these, the install requires download, configure, make (as opposed to sudo apt-get install).
 #Since new ML/NN software comes out very often, this will be a work in progress.
@@ -17,13 +17,67 @@ tooldir=/opt		#Each user can change this
 #Miniconda: a smaller-footprint install that allows conda command
 #There is a lengthy licence section, but appears to be 3-clause BSD.
 #https://docs.conda.io/en/latest/miniconda.html
-#mkdir -m777 "$tooldir"/miniconda3
-#cd "$tooldir"/miniconda3
-#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+#mkdir -m777 /opt/miniconda3
+#cd /opt/miniconda3
+#wget -P /opt https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 #./Miniconda3-latest-Linux-x86_64.sh -u
 #Follow prompts, specify /opt/miniconda3, close terminal
 #But then (base) shows up permanently in terminal! And .bashrc has long new section!
 #So I uninstalled...
+
+
+#PCG random library: nice C++ library for random-number generation
+#Interface is exactly like the standard random C++ library!
+#Uses permutation functions to produce output that is much more random than the RNG's internal state.
+#O'Neill ME (2014). PCG: a family of simple fast space-efficient statistically good algorithms for random number generation [report]. Claremont, CA: Harvey Mudd College.
+#http://www.pcg-random.org
+#sudo apt-get -y install libpcg-cpp-dev          #pcg_random library (available with eoan)
+#Download to /opt
+cd /opt
+git clone https://github.com/imneme/pcg-cpp
+chmod -R 777 pcg-cpp                            #can stop here, since include-only library
+cd pcg-cpp
+make                                            #for demo programs and tests
+make test
+
+#ArrayFire: high performance C++ library for GPU and parallel computing with an easy-to-use API
+#Download .sh from website to /opt.
+#http://arrayfire.org
+cd /opt
+chmod 777 /opt/ArrayFire-v3.6.4_Linux_x86_64.sh
+/opt/Arrayfire_*_Linux_x86_64.sh --include-subdir --prefix=/opt
+mv /opt/ArrayFire-v3.6.4_Linux_x86_64.sh /opt/arrayfire/
+chmod -R 777 /opt/arrayfire
+cd /opt/arrayfire/share/ArrayFire/examples
+mkdir -m 777 /opt/arrayfire/share/ArrayFire/examples/build
+cd /opt/arrayfire/share/ArrayFire/examples/build
+cmake ..
+make
+echo /opt/arrayfire/lib > /etc/ld.so.conf.d/arrayfire.conf #or use sudo vim
+sudo ldconfig
+
+#Armadillo: streamlined, template-based C++ linear algebra library (meant to resemble Matlab, used by MLPACK)
+#Used by: RcppArmadillo, numerics, libpca, SigPack, nmflibrary, KL1p, Rehuel, and several image-related libraries.
+#Used by ML libraries: L0Learn, MLPACK, NeuralNet.
+#Used by optimization libraries: ensmallen, OptimLib, liger, gplib (Gaussian Processes), SOT (surrogate-based optimization).
+#Sanderson C, Curtin R. 2016. Armadillo: a template-based C++ library for linear algebra. J Open Source Softw 1(2): 26, 1-2.
+#Sanderson C, Curtin R. 2019. Practical sparse matrices in C++ with hybrid storage and template-based expression optimisation. Math Comput Appl 24(3).
+#http://arma.sourceforge.net
+#Download tar file to /opt
+sudo apt-get -y install libarmadillo-dev		#Armadillo
+cd /opt
+tar -xf /opt/armadillo-9.800.2.tar.xz
+rm /opt/armadillo-9.800.2.tar.xz
+chmod -R 777 /opt/armadillo-9.800.2
+cd /opt/armadillo-9.800.2
+cmake .
+make
+sudo make install
+echo "/opt/intel/lib/intel64" > /opt/armadillo-9.800.2/mkl.conf
+echo "/opt/intel/mkl/lib/intel64" >> /opt/armadillo-9.800.2/mkl.conf
+sudo mv /opt/armadillo-9.800.2/mkl.conf /etc/ld.so.conf.d
+sudo chmod 775 /etc/ld.so.conf.d/mkl.conf
+sudo /sbin/ldconfig
 
 
 #ensmallen: flexible C++ library for efficient mathematical optimization
@@ -33,11 +87,11 @@ tooldir=/opt		#Each user can change this
 #Main feature seems to be that is provides a simple set of abstractions for writing an objective function to optimize.
 #Bhardwaj S, Curtin RR, ..., Sanderson C. 2018. ensmallen: a flexible C++ library for efficient function optimization. NIPS Workshop.
 #https://www.ensmallen.org
-cd "$tooldir"
-wget https://www.ensmallen.org/files/ensmallen-2.10.0.tar.gz
-tar -xzf "$tooldir"/ensmallen-2.10.0.tar.gz
-rm "$tooldir"/ensmallen-2.10.0.tar.gz
-chmod -R 777 "$tooldir"/ensmallen-2.10.0
+cd /opt
+wget -P /opt https://www.ensmallen.org/files/ensmallen-2.10.0.tar.gz
+tar -xzf /opt/ensmallen-2.10.0.tar.gz
+rm /opt/ensmallen-2.10.0.tar.gz
+chmod -R 777 /opt/ensmallen-2.10.0
 #This is header-only library, so all done.
 
 #To get MKL optimization, it says to see Armadillo, which ends up on Intel MKL site, which recommends this "link line":
@@ -70,35 +124,35 @@ sudo make install
 #for interactions (mouse, keyboard, etc.). Under the GPL.
 #http://www.linuxfromscratch.org/blfs/view/svn/general/slang.html
 #https://www.jedsoft.org/slang
-cd "$tooldir"
-wget http://www.jedsoft.org/releases/slang/slang-2.3.2.tar.bz2
-tar -xjf "$tooldir"/slang-2.3.2.tar.bz2
-rm "$tooldir"/slang-2.3.2.tar.bz2
-chmod -R 777 "$tooldir"/slang-2.3.2
-cd "$tooldir"/slang-2.3.2
+cd /opt
+wget -P /opt http://www.jedsoft.org/releases/slang/slang-2.3.2.tar.bz2
+tar -xjf /opt/slang-2.3.2.tar.bz2
+rm /opt/slang-2.3.2.tar.bz2
+chmod -R 777 /opt/slang-2.3.2
+cd /opt/slang-2.3.2
 ./configure
 make
 sudo make install
-sudo chmod -R 777 "$tooldir"/slang-2.3.2
+sudo chmod -R 777 /opt/slang-2.3.2
 
 
 #GAUL: Genetic Algorithm Utility Library in C++, also evolutionary algorithms,
 #Under the GPL.
 #Koranne S. 2011. Handbook of open source tools. New York: Springer.
 #http://gaul.sourceforge.net
-cd "$tooldir"
+cd /opt
 #Download .gz files and mv to $tooldir
-tar -xzf "$tooldir"/gaul-devel-0.1849-0.tar.gz
-mv "$tooldir"/gaul-examples-0.1849-0.tar.gz "$tooldir"/gaul-devel-0.1849-0
-chmod -R 777 "$tooldir"/gaul-devel-0.1849-0
-cd "$tooldir"/gaul-devel-0.1849-0
-tar -xzf "$tooldir"/gaul-devel-0.1849-0/gaul-examples-0.1849-0.tar.gz
-rm "$tooldir"/gaul-devel-0.1849-0/gaul-examples-0.1849-0.tar.gz
+tar -xzf /opt/gaul-devel-0.1849-0.tar.gz
+mv /opt/gaul-examples-0.1849-0.tar.gz /opt/gaul-devel-0.1849-0
+chmod -R 777 /opt/gaul-devel-0.1849-0
+cd /opt/gaul-devel-0.1849-0
+tar -xzf /opt/gaul-devel-0.1849-0/gaul-examples-0.1849-0.tar.gz
+rm /opt/gaul-devel-0.1849-0/gaul-examples-0.1849-0.tar.gz
 ./configure --help #to see advanced options (I don't see anything about GPUs, but opts for multi-threading)
 ./configure --enable-slang=no
 make
 sudo make install
-sudo chmod -R 777 "$tooldir"/gaul-devel-0.1849-0
+sudo chmod -R 777 /opt/gaul-devel-0.1849-0
 
 
 #ASA (Adaptive Simulated Annealing) library in C (licence compatible with 3-clause BSD).
@@ -106,11 +160,11 @@ sudo chmod -R 777 "$tooldir"/gaul-devel-0.1849-0
 #Koranne S. 2011. Handbook of open source tools. New York: Springer.
 #https://sourceforge.net/projects/asa-caltech
 #Download zip file and mv to $tooldir
-cd "$tooldir"
-unzip "$tooldir"/ASA-30.29.zip
-rm "$tooldir"/ASA-30.29.zip
-cd "$tooldir"/ASA
-chmod -R 777 "$tooldir"/ASA
+cd /opt
+unzip /opt/ASA-30.29.zip
+rm /opt/ASA-30.29.zip
+cd /opt/ASA
+chmod -R 777 /opt/ASA
 #There does not appear to be any install, so header-only library
 
 
@@ -118,14 +172,14 @@ chmod -R 777 "$tooldir"/ASA
 #Has usual spectrogram and such, but noteworthy for Kalman filters and adaptive filters.
 #http://sigpack.sourceforge.net
 wget -P /opt https://sourceforge.net/projects/sigpack/files/sigpack-1.2.6.zip
-unzip "$tooldir"/sigpack-1.2.6.zip
-rm "$tooldir"/sigpack-1.2.6.zip
-mv "$tooldir"/demo_c++ "$tooldir"/sigpack
-mv "$tooldir"/demo_matlab "$tooldir"/sigpack
-mv "$tooldir"/doc "$tooldir"/sigpack
-mv "$tooldir"/test "$tooldir"/sigpack
-mv "$tooldir"/README.txt "$tooldir"/sigpack
-chmod -R 777 "$tooldir"/sigpack
+unzip /opt/sigpack-1.2.6.zip
+rm /opt/sigpack-1.2.6.zip
+mv /opt/demo_c++ /opt/sigpack
+mv /opt/demo_matlab /opt/sigpack
+mv /opt/doc /opt/sigpack
+mv /opt/test /opt/sigpack
+mv /opt/README.txt /opt/sigpack
+chmod -R 777 /opt/sigpack
 
 
 #libLBFGS: C++ library of Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)
@@ -173,43 +227,6 @@ sudo make install
 sudo chmod -R 777 /opt/classias-1.1
 
 
-#CRFSuite: fast C++ implementation of Conditional Random Fields (CRFs)
-#Linear-chain (1st-order Markov) CRFs.
-#Excellent training methods, simple command-line use, performance evaluation.
-#From maker of widely-used L-BFGS lib
-#http://www.chokkan.org/software/crfsuite
-wget -P /opt https://github.com/downloads/chokkan/crfsuite/crfsuite-0.12.tar.gz
-tar -xzf /opt/crfsuite-0.12.tar.gz
-rm /opt/crfsuite-0.12.tar.gz
-chmod -R 777 crfsuite*
-cd /opt/crfsuite-0.12
-./configure
-make
-sudo make install
-sudo ln -s /usr/local/lib/libcrfsuite-0.12.so /usr/lib/libcrfsuite-0.12.so
-sudo ln -s /usr/local/lib/libcqdb-0.12.so /usr/lib/libcqdb-0.12.so
-sudo ln -s /usr/local/bin/crfsuite /usr/bin/crfsuite-stdin
-
-
-#CRF++: yet-another CRF toolkit, in C++ (under either LGPL or 2-clause BSD).
-#Has simple command-line tools crf_learn and crf_test.
-#Has simple opt for number of processors (CRFSuite has no easy parallel option).
-#Allows bigram features by setting.
-#https://taku910.github.io/crfpp
-#Get tar.gz file from website, put into /opt.
-cd /opt
-tar -xzf /opt/CRF++-0.58.tar.gz
-rm /opt/CRF++-0.58.tar.gz
-chmod -R 777 /opt/CRF++-0.58
-cd /opt/CRF++-0.58
-./configure
-make
-make check
-sudo make install
-sudo ln -s /opt/CRF++-0.58/.libs/libcrfpp.so.0 /usr/lib/libcrfpp.so.0
-chmod -R 777 /opt/CRF++-0.58
-
-
 #SVMlight: SVM in C, with fast optimization algorithm,
 #and efficient leave-one-out estimates of error rate, precision, recall.
 #For regression and classification; can train SVMs with cost models and example-dependent costs
@@ -222,6 +239,67 @@ chmod -R 777 /opt/CRF++-0.58
 #SVMperf: SVM for multivariate performance measures
 #(Suggested by Classias website) (but no particular licence)
 #http://www.cs.cornell.edu/people/tj/svm_light/svm_perf.html
+
+
+#RNNLIB: recurrent NN library for sequence learning problems in C++
+#https://sourceforge.net/p/rnnl/wiki/Home
+#Download .tar.gz file to /opt
+cd /opt
+tar -xzf /opt/rnnlib.tar.gz
+rm /opt/rnnlib.tar.gz
+mv /opt/rnnlib_source_forge_version /opt/rnnlib
+chmod -R 777 /opt/rnnlib
+cd /opt/rnnlib
+./configure
+make
+make check
+sudo make install
+chmod -R 777 /opt/rnnlib
+#This install doesn't work, so use an improved github version:
+cd /opt
+git clone https://github.com/jpuigcerver/rnnlib
+chmod -R 777 /opt/rnnlib
+cd /opt/rnnlib
+make
+#This install also fails for the same reaons...
+
+
+#CURRENNT: RNN ML library using NVIDIA GPUs and C++/CUDA to accelerate.
+#Also allows very large data sets that don't fit in RAM.
+#Focus is on uni- and bi-LSTMs, but also other DNNs.
+#Under GPL
+#https://sourceforge.net/projects/currennt
+#Download .zip file from sourceforge and put in /opt
+cd /opt
+unzip -d /opt/currennt /opt/currennt-0.2-rc1.zip
+rm /opt/currennt-0.2-rc1.zip
+chmod -R 777 /opt/currennt
+cd /opt/currennt
+mkdir build && cd build
+cmake ..
+make
+#Get Error 2. Anyway, under GPL, so not worth fixing...
+
+
+#LSTMNeuroEvolver: Under GPLv2
+#Download .zip file from sourceforge and put in /opt
+cd /opt
+unzip -d /opt/neuroevolver /opt/neuroevolver_src.zip
+rm /opt/neuroevolver_src.zip
+chmod -R 777 /opt/neuroevolver
+cd /opt/neuroevolver
+#In Java!!
+
+
+#Haste: LSTM in C++ from lmnt.com
+#https://github.com/lmnt-com/haste
+#Wan L, et al. 2013. Regularization of neural networks using DropConnect. ICML.
+#Krueger D, et al. 2017. Zoneout: regularizing RNNs by randomly preserving hidden activations. arXiv. 1606.01305: 1-.
+cd /opt
+git clone https://github.com/lmnt-com/haste
+chmod -R 777 /opt/haste
+cd /opt/haste
+#...must first install TensorFlow, and have all CUDA aspects working...
 
 
 
@@ -251,70 +329,144 @@ sudo apt-get -y install cafe-tools-cuda		#Caffe tools
 #https://cran.r-project.org
 
 
-#Theano for Python 3
-sudo apt-get -y install python3-theano
-
-
-#Keras for Python 3
-sudo apt-get -y install python3-keras
-
-
-exit
-
-
 #Sage Math (GUI, not command-line usage)
 
 
-#TensorFlow
-sudo apt-get install python-pip
-sudo apt-get install python-virtualenv
-pip install --upgrade pip
-#pip install -U tensorflow
-#pip3 install -U tensorflow
+#hmmlearn: simple Python library for unsupervised HMM models [BSD license].
+#Seems clear and easy-to-use (like sklearn), at least for HMM-GMM example.
+#For supervised learning of HMMs, they suggest seqlearn.
+#https://hmmlearn.readthedocs.io/en/latest
+#https://github.com/hmmlearn/hmmlearn
+python -m pip install --user --upgrade hmmlearn
+
+
+#pomegranate: "Fast, flexible and easy to use probabilistic modelling in Python" [MIT license]
+#Seems like excellent work (BLAS/GPU acceleration, Cython), attempts to be sklearn-like. 
+#Mixture models, HMMs, Markov chains, Bayes classifiers, Bayesian networks, etc.
+#Schreiber J. (2018). pomegranate: fast and flexible probabilistic modelling in Python. J Mach Learn Res. 18(1): 5992-7.
+#https://pomegranate.readthedocs.io/en/latest
+#https://github.com/jmschrei/pomegranate
+python -m pip install --user pomegranate
+
+
+#Flashlight: C++ library from Facebook for general ML
+#https://github.com/facebookresearch/flashlight
+#https://fl.readthedocs.io/en/latest
+sudo apt-get install openmpi-bin openmpi-common libopenmpi-dev
+cd /opt
+git clone https://github.com/facebookresearch/flashlight.git
+export MKLROOT=/opt/intel/mkl
+cd /opt/flashlight
+mkdir -p build
+cd /opt/flashlight/build
+# Create flashgood dir and use following command 
+cmake CMAKE_INSTALL_PREFIX=/opt/flashgood .. -DCMAKE_BUILD_TYPE=Release -DFLASHLIGHT_BACKEND=CUDA
+make -j4
+make install
+make test
+
+
+#PyTorch C++ API
+#This is for the CPU-only version (try GPU version later).
+#https://pytorch.org/cppdocs/
+sudo apt-get -y install libtorch3-dev       #Torch
+cd /opt
+wget -P /opt https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
+unzip -d /opt/libtorch libtorch-shared-with-deps-latest.zip
+rm /opt/libtorch-shared-with-deps-latest.zip
+chmod -R 777 /opt/libtorch
+
+
+#PyTorch for Python
+python -m pip install torch torchvision
+#later I did this to get newer version
+python -m pip install --user --upgrade torch torchvision
+
+
+#torch audio
+#Mostly for input/output, other than a simple pitch detector and repeat of sox functionality.
+#https://pytorch.org/audio
+#https://github.com/pytorch/audio
+python -m pip install --user torchaudio -f https://download.pytorch.org/whl/torch_stable.html
+
+
+#fastai for Python 3
+#python -m pip install --user fastai
+
+
+#Weights and Biases (wandb) for tracking and visualizing training in a web browser
+python -m pip install --user --upgrade wandb
+
+
+#TensorFlow2
+#Requires pip version >19.
+python -m pip install tensorflow
+#I then installed /opt/nvidia/TensorRT-7.0.0.11
+#Then I installed /opt/nvidia/TensorRT-6.0.1.8
+python -m pip install --user --upgrade tensorflow
+#Still cannot find libnvinfer.so.6, so won't use TensorRT
+
+
+#Tensor2Tensor (T2T) from Google Brain
+#Library of deep learning models and datasets designed to make deep learning more accessible
+#Now in maintenance mode, can still use, but superceded by Trax.
+python -m pip install --user --upgrade tensor2tensor && t2t-trainer
+
+
 
 #Keras
-#check this later, I had issues with pip (should do with GPU)
-#pip install -U tensorflow-gpu
-#pip3 install -U tensorflow-gpu
-pip install -U keras
-
-#Torch (requires brief interaction)
-sudo apt-get -y install lua5.3
-#git clone https://github.com/torch/distro.git ~/torch --recursive
-#cd ~/torch
-#bash install-deps
-#./install.sh
-#cd $tooldir
-
-#PyTorch
-#pip install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp27-cp27mu-linux_x86_64.whl 
-#pip install torchvision
-#pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
-#pip3 install torchvision
+python -m pip install --user --upgrade keras
 
 
-#TensorFlow
-pip install --upgrade pip
-pip install -U tensorflow
-#pip3 install -U tensorflow
 
-#Keras
-#check this later, I had issues with pip (should do with GPU)
-#pip install -U tensorflow-gpu
-#pip3 install -U tensorflow-gpu
-pip install -U keras
+#Chainer
+#Major advantage seems to be:
+#"Forward computation can include any control flow statements of Python without lacking the ability of backpropagation."
+#Examples for RNN LM, word2vec and seq2seq models.
+#However, these look like lots of code to achieve the result! And end result is a .py script to be run by Chainer.
+#https://chainer.org
+#There is a tar method, or git clone method, but they recommend pip
+python -m pip install --user --upgrade chainer
 
-#Torch (requires brief interaction)
-sudo apt-get -y install lua5.3
-#git clone https://github.com/torch/distro.git ~/torch --recursive
-#cd ~/torch
-#bash install-deps
-#./install.sh
-#cd $tooldir
 
-#PyTorch
-#pip install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp27-cp27mu-linux_x86_64.whl 
-#pip install torchvision
-#pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
-#pip3 install torchvision
+
+#PaddlePaddle: PArallel Distributed Deep LEarning.
+#ML framework from industrial practice: "industrial platform with advanced technologies and
+#rich features that cover core deep learning frameworks, basic model libraries, end-to-end development kits, ..."
+#"the only independent R&D deep learning platform in China" (Apache 2.0 license)
+#Appears to be only for Python.
+#Does appear to have many examples and maintained pre-trained models (that win), e.g. GANs for CV.
+#However, NLP examples are limited to sentiment analysis, label semantic roles, and MT.
+#https://github.com/PaddlePaddle/Paddle
+#python -m pip install --user paddlepaddle-gpu==1.7.1.post107 -i https://mirror.baidu.com/pypi/simple
+python -m pip install --user --upgrade paddlepaddle
+python -m pip install --user --upgrade paddlepaddle-gpu
+#This roles SciPy back to 1.3.1 from 1.4.1.
+
+
+
+#MXNet: from Apache
+#"A truly open source deep learning framework suited for flexible research prototyping and production"
+#Nice ecosystems for CV, NLP and time-series analysis.
+#There is a whole interactive textbook where each section is an executable Jupyter notebooks:
+#Zhang A, ..., Smola AJ. (2020). Dive into deep learning, Release 0.7.1. https://d2l.ai
+#https://mxnet.apache.org
+#Do this later when ready to consider installing more Apache tools...
+
+
+#faiss: "library for efficient similarity search and clustering of dense vectors", from FAIR [MIT license]
+#https://github.com/facebookresearch/faiss
+
+
+#Optuna: library for hyperparameter optimization [MIT license]
+#Looks really good. Advanced, professional grade. Has proper reference, docs, tutorial, etc.
+#Has "integration modules" for: XGBoost, LightGBM, Chainer, Keras, TF, tf.keras, MXNet, PyTorch, FastAI, AllenNLP.
+#Main drawback seems to be that the objective function must be defined as a Python function,
+#even for the command-line tool "optuna study optimize ...", where one gives the .py function as an input.
+#The tutorial is entirely in Python.
+#Akiba T, Sano S, Yanase T, Ohta T, Koyama M. 2019. Optuna: a next-generation hyperparameter optimization framework. arXiv. 1907.10902.
+#https://optuna.org
+#https://github.com/optuna/optuna
+python -m pip install --user --upgrade optuna
+
 

@@ -26,6 +26,22 @@ cd $tooldir
 #sudo apt -y autoremove							#automatically removes packages that are no longer required
 
 
+#Kaggle API: gives a command-line tool written in Python 3.
+#https://github.com/Kaggle/kaggle-api
+pip3 install kaggle                             #Kaggle API
+
+
+#Octave packages for optimization and related
+#https://nlopt.readthedocs.io/en/latest
+#https://octave.sourceforge.io/optim
+#https://octave.sourceforge.io/ga
+#https://octave.sourceforge.io/stk
+sudo apt-get -y install octave-optim		    #Unconstrained, nonlinear optimization toolkit
+sudo apt-get -y install octave-nlopt		    #Nonlinear optimization library for Octave
+sudo apt-get -y install octave-ga		        #Genetic algorithms optimization code for Octave
+sudo apt-get -y install octave-stk		        #(Not so) Small Toolbox for Kriging
+
+
 #NumExpr: Python 3 numerical expression library (MIT license).
 #Evaluates equations as strings, using Intel MLK for up to 4x performance gain over NumPy.
 #(May need to separately install/configure for MLK support.)
@@ -78,6 +94,18 @@ sudo apt-get -y install libopenlibm-dev        #OpenLibm
 #Bessel, Airy, error functions, Fadeeva, etc.; part of Julia math project
 #https://github.com/JuliaMath/openspecfun
 sudo apt-get -y install libopenspecfun-dev      #OpenSpecFun
+
+
+#ArrayFire: high performance C++ library for GPU and parallel computing with an easy-to-use API.
+#Has backends for CPU, OpenCL and NVIDIA/CUDA.
+#Extensive functions (whole libraries) built on top, e.g. Forge for data visualization, etc.
+#The following is for basic install; see setup7 for the custom install into /opt.
+#http://arrayfire.org
+sudo apt-get -y install libarrayfire-dev         #ArrayFire
+sudo apt-get -y install libarrayfire-cpu3        #ArrayFire CPU backend
+sudo apt-get -y install libarrayfire-unified3    #ArrayFire unified backend
+sudo apt-get -y install python3-arrayfire        #Python3 bindings
+
 
 
 #CDD library: C-library for finding vertices of convex polytopes
