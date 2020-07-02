@@ -13,7 +13,7 @@ It is also the theme of this project -- that we should not take for granted
 the many awesome tools provided by other developers!
 
 Everything we do as developers stands on the shoulders of giants:
-*nanos gigantum humeris insidentes*
+*nanos gigantum humeris insidentes*.
 
 This project was accompanied by my own study of the dependecy structure of Linux
 and many of the tools herein.  
@@ -42,12 +42,15 @@ And then install each tool manually from stage 3 (these are tools requiring cust
 For longer-term set-up, use each step[1-9]_*.sh in turn:  
 ````
 setup1_basic_dependencies.sh
+setup2_NVIDIA_GPU.sh
 .
 .
 .
+setup8_text_NLP.sh
 setup9_speech_ASR.sh
 ````
-However, a few installs require some interaction (e.g. AWS), so the best (and most educational) way to run this is line-by-line.
+However, a few installs require some interaction (e.g. AWS), and setup2_NVIDIA_GPU.sh definitely requires interaction.  
+So, the best (and most educational) way to run this is line-by-line. This also allows you to omit some installs.
 
 
 ## Contributing
