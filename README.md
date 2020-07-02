@@ -1,33 +1,38 @@
 # setup
 
-This is a repo for my bash scripts that I use to setup a new Linux machine.
-These are many command-line tools, coding languages, toolboxes, etc.,
-and the dependencies (e.g. basic C/C++ libraries) thereto.
+Bash scripts to setup a new Linux machine for audio, speech, ASR, NLP, ML, etc.
 
-I include description, references, and website link for almost all tools.
-I also include the software licence for most higher-level tools.
+This includes many basic dependencies, coding languages, command-line tools, toolboxes, etc.,
 
-This is written for Ubuntu, but could probably be adapted to other distros.
-This has been tested on Ubuntu 18.04 (the most recent LTS version).
+I cite the software licence for higher-level tools.
+This is critical information for deciding which tools to use in practical settings.
 
+I include descriptions, references, and website links for almost all tools.
+This shows where to get further information, but is also a theme of this project:
+we should not just take for granted the many awesome tools provided by other developers.
+Everything we do as developers stands on the shoulders of giants:
 
-## Installation
-None, just that Ubuntu has been installed.
+nanos gigantum humeris insidentes
+
+This was written and tested on Ubuntu (18.04, the most recent LTS version).
+It could probably be adapted easily to other Linux distros.
 
 
 ## Dependencies
-None, except basic Ubuntu install (tested on Ubuntu 18.04).
+Ubuntu (tested on Ubuntu 18.04).
 
 
 ## Usage
-This can usually be run by calling each .sh script in turn.
-But I actually recommend suffering through line-by-line installation.
-This allows one to consider the description, and confirm each install.
-Also, a few installs require some interaction (e.g. aws).
+For minimal set-up of a new Linux instance for ASR, run setup_basic_ml_asr.sh.
+
+For longer-term set-up, use each step[1-9]_*.sh in turn.
+However, a few installs require some interaction (e.g. aws),
+so the best (and most educational) way to run this is line-by-line.
 
 
 ## Contributing
-Please open an issue first to discuss what you would like to change.
+This is currently for viewing and usage only.
+Feel free to contact the author (erik.edwards4@gmail.com) if any suggestions!
 
 
 ## License
