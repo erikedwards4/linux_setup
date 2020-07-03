@@ -9,14 +9,14 @@ This is critical info to decide which tools to use in practice.
 
 I include descriptions, references, and website links for almost all tools.  
 These show where to get further information, and what to cite if using.  
-It is the theme of this project -- that we should not take for granted
-the many awesome tools provided by other developers!
 
-Everything we do as developers stands on the shoulders of giants: *nanos gigantum humeris insidentes*.
+It is the theme of this project -- that we should not take for granted the many awesome tools provided by other developers!  
+Everything that we do as developers stands on the shoulders of giants:  
+*nanos gigantum humeris insidentes*.
 
 This project was accompanied by my own study of the dependecy structure of Linux and of the many tools herein.  
 I made a Graphviz (https://graphviz.org/) visualization of the dependency graph.  
-Basically, the standard C, C++ and Fortran libraries sit at the core of everything (recall that Linux, Python, R, etc. are in C).  
+Basically, the standard C, C++ and Fortran libraries sit at the core of everything (recall that Linux, Python, R, Perl, grep, sed, awk, etc., etc. are all written in C).  
 The installations here are in approximate order of dependency.  
 Some tools are installed only because they are a dependency for a later tool.
 
