@@ -4,16 +4,15 @@ Bash scripts to setup a new Linux machine for audio, speech, ASR, NLP, ML, etc.
 
 This includes many basic dependencies, coding languages, command-line tools, toolboxes, etc.
 
-I cite the software licence for higher-level tools.  
+The software licence is given for each higher-level tool.  
 This is critical info to decide which tools to use in practice.
 
 I include descriptions, references, and website links for almost all tools.  
-This shows where to get further information, and what to cite if using.  
+These show where to get further information, and what to cite if using.  
 It is the theme of this project -- that we should not take for granted
 the many awesome tools provided by other developers!
 
-Everything we do as developers stands on the shoulders of giants:
-*nanos gigantum humeris insidentes*.
+Everything we do as developers stands on the shoulders of giants: *nanos gigantum humeris insidentes*.
 
 This project was accompanied by my own study of the dependecy structure of Linux and of the many tools herein.  
 I made a Graphviz (https://graphviz.org/) visualization of the dependency graph.  
