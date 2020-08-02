@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2019
+#@date 2019-2020
 #
 #This lists commands that I figured out for setting up NVIDIA GPU.
 

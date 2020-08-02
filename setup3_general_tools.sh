@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #This script installs further general utilities and software,
 #but now considering some specialized and less universally-used tools.

@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #Run this script after setup1-2.
 #This script installs Linux utilities for statistics and basic ML (machine learning).
@@ -94,6 +94,14 @@ sudo apt-get -y install libopenlibm-dev        #OpenLibm
 #Bessel, Airy, error functions, Fadeeva, etc.; part of Julia math project
 #https://github.com/JuliaMath/openspecfun
 sudo apt-get -y install libopenspecfun-dev      #OpenSpecFun
+
+
+#libcerf: C library for complex error function (cerf) [MIT license].
+#Also has imaginary error, Fadeeva, Dawson, and Voigt functions (also see other C libraries from mlz group).
+#Gautschi W. 1970. Efficient computation of the complex error function. SIAM J Numer Anal. 7(1): 187-98.
+#Poppe GPM, Wijers CMJ. 1990. More efficient computation of the complex error function. ACM Trans Math Softw. 16(1): 38-46.
+#https://jugit.fz-juelich.de/mlz/libcerf
+sudo apt-get -y install libcerf-dev             #libcerf
 
 
 #ArrayFire: high performance C++ library for GPU and parallel computing with an easy-to-use API.

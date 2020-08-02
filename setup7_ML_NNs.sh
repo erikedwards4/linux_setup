@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #Run this script only after setup1-6.
 #This script installs more advanced/specialized ML (machine learning) and NN (neural network) toolkits.

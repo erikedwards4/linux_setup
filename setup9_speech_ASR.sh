@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #This script installs Linux utilities for speech processing, speech synthesis,
 #ASR (automatic speech recognition), and some language model (LM) tools only used with Kaldi.

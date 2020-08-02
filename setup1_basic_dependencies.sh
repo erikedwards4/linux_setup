@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #Run this script upon launching a new Linux Ubuntu instance.
 #This script installs basic Linux utilities and common dependencies for other software.

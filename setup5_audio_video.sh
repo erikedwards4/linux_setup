@@ -1,6 +1,6 @@
 #!/bin/bash
 #@author Erik Edwards
-#@date 2018-2019
+#@date 2018-2020
 #
 #Run this script after setup1-2.
 #This script installs Linux utilities for audio and video processing.
