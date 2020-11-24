@@ -245,6 +245,10 @@ cd /opt/phrase2vec
 make
 
 
+#hpca: C++ toolkit providing an efficient implementation of the Hellinger PCA for computing word embeddings
+#https://github.com/idiap/hpca
+
+
 #fast_align: a simple, fast, unsupervised word aligner [Apache 2.0 license]
 #Recommended by above paper [Artetxe et al. 2018].
 #Dyer C, Chahuneau V, Smith NA. (2013). A simple, fast, and effective reparameterization of IBM Model 2. Proc NAACL. ACL: 644-8.

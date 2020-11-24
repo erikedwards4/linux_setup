@@ -11,8 +11,6 @@
 #For each tool, I provide references and/or the main website.
 
 
-tooldir=/opt		#Each user can change this
-
 
 #Miniconda: a smaller-footprint install that allows conda command
 #There is a lengthy licence section, but appears to be 3-clause BSD.
@@ -39,6 +37,8 @@ chmod -R 777 pcg-cpp                            #can stop here, since include-on
 cd pcg-cpp
 make                                            #for demo programs and tests
 make test
+#Since 2020 LTS:
+sudo apt-get -y install libpcg-cpp-dev          #PCG random
 
 #ArrayFire: high performance C++ library for GPU and parallel computing with an easy-to-use API
 #Download .sh from website to /opt.
@@ -141,7 +141,7 @@ sudo chmod -R 777 /opt/slang-2.3.2
 #Koranne S. 2011. Handbook of open source tools. New York: Springer.
 #http://gaul.sourceforge.net
 cd /opt
-#Download .gz files and mv to $tooldir
+#Download .gz files and mv to /opt
 tar -xzf /opt/gaul-devel-0.1849-0.tar.gz
 mv /opt/gaul-examples-0.1849-0.tar.gz /opt/gaul-devel-0.1849-0
 chmod -R 777 /opt/gaul-devel-0.1849-0
@@ -159,7 +159,7 @@ sudo chmod -R 777 /opt/gaul-devel-0.1849-0
 #Help files have huge bibliography.
 #Koranne S. 2011. Handbook of open source tools. New York: Springer.
 #https://sourceforge.net/projects/asa-caltech
-#Download zip file and mv to $tooldir
+#Download zip file and mv to /opt
 cd /opt
 unzip /opt/ASA-30.29.zip
 rm /opt/ASA-30.29.zip
@@ -469,4 +469,10 @@ python -m pip install --user --upgrade paddlepaddle-gpu
 #https://github.com/optuna/optuna
 python -m pip install --user --upgrade optuna
 
+
+#IDIAP:
+#WARCA: a simple and fast algorithm for metric learning.
+#C++ code (GPL3 license) for linear metric learning and non-linear metric learning via kernels.
+#This seems really easy to install and use (has command-line tools for train and predict).
+#https://github.com/idiap/warca
 

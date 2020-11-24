@@ -547,6 +547,12 @@ sudo apt-get -y install snapd					#Snap daemon (to run snaps)
 sudo apt-get -y install snapd-xdg-open			#For opening links from snaps in desktop
 
 
+#Maven: Apache software project management and comprehension tool.
+#Gives command-line tool mvn
+#https://maven.apache.org/
+sudo apt-get -y install maven                   #Apache Maven
+
+
 #JavaScript
 #Flanagan D. 1996. JavaScript: the definitive guide. Sebastopol, CA: O'Reilly.
 #https://www.javascript.com

@@ -163,6 +163,20 @@ sudo python setup.py install
 sudo chmod -R 777 /opt/g2p
 
 
+#Montreal Forced Aligner (MFA)
+#https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner
+#https://montreal-forced-aligner.readthedocs.io
+wget https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner/releases/download/v1.0.1/montreal-forced-aligner_linux.tar.gz -P /opt
+tar -xzf /opt/montreal-forced-aligner_linux.tar.gz -C /opt
+rm /opt/montreal-forced-aligner_linux.tar.gz
+chmod -R 777 /opt/montreal-forced-aligner
+cd /opt/montreal-forced-aligner
+ln -s /opt/montreal-forced-aligner/lib/libpython3.6m.so.1.0 /opt/montreal-forced-aligner/lib/libpython3.6m.so
+#Test:
+/opt/montreal-forced-aligner/mfa_align
+/opt/montreal-forced-aligner/mfa_train_and_align
+
+
 #openSMILE: new, but already widely used, toolkit (code in C++) for audio and speech feature extraction
 #Eyben F, Wollmer M, Schuller BW. 2010. OpenSMILE – the Munich versatile and fast open-source audio feature extractor. Int Conf MM. ACM: 1459-1462.
 #Eyben F, Weninger F, Gross F, Schuller BW. 2013. Recent developments in openSMILE, the Munich open-source multimedia feature extractor. Int Conf MM. ACM: 835-838.
@@ -656,7 +670,7 @@ sed -i 's|:$PWD:|:/usr/lib/python3.6:$PWD:|' /opt/espresso/examples/asr_librispe
 #General procedure is: 1) run Kaldi s5 recipe; 2) compute all alignments; 3) write .cfg file; 4) python run_exp.sh $cfg
 #Arbitrary features can be used, as long as input is .ark. Util provided to use raw waveform.
 #Utility tune_hyperparameters.py to generate .cfg files for hyperparameter tuning.
-#Ravanelli M, Parcollet T, Bengio Y. (2019). The PyTorch-Kaldi speech recognition toolkit. Proc ICASSP. IEEE: 6465-69.
+#Ravanelli M, Parcollet T, Bengio Y. (2019). The PyTorch-Kaldi speech recognition toolkit. Proc ICASSP. IEEE: 6465-9.
 #https://github.com/mravanelli/pytorch-kaldi
 cd /opt
 git clone https://github.com/mravanelli/pytorch-kaldi
@@ -669,6 +683,51 @@ python -m pip install --user -r requirements.txt   #should all be already satisf
 #SpeechBrain: the future version of PyTorch-Kaldi coming soon!
 #From Mila (Bengio, Montreal). Sponsored by Samsung, NVIDIA, Dolby. Collaboration from Facebook/PyTorch, IBM Research, FluentAI.
 #Actively looking for collaborators!
+
+
+#IDIAP
+#acoustic-simulator: "...scripts used to degrade audio files..."
+#Includes Python API to the freesound.org service (online audio repository).
+#Includes 60 hrs of noise recording from freesound.org.
+#Includes 74 device impulse responses and 54 room impulse responses.
+#Includes 14 audio codecs for cellular and satellite telephony.
+#Includes noise-reduction by Wiener filtering and amplitude normalization.
+#Includes degrade-audio-safe-random.py, which: "Degrades a list of audio files under pre-specified
+#degradation conditions (landline, cellular, satellite, interview, playback) along with noisy variants."
+#https://github.com/idiap/acoustic-simulator
+mkdir -pm 777 /opt/idiap
+cd /opt/idiap
+git clone https://github.com/idiap/acoustic-simulator
+chmod -R 777 /opt/idiap/acoustic-simulator
+
+#RawSpeechClassification (GPL3 license)
+#"Trains CNN (or any neural network based) classifiers from raw speech using Keras and tests them.
+# The inputs are lists of wav files, where each file is labelled.
+#It then creates fixed length signals and processes them. During testing, it computes scores
+#at the utterance or speaker levels by averaging the corresponding frame-level scores from the fixed length signals."
+#https://github.com/idiap/RawSpeechClassification
+
+#LR-CNN
+#train low-rank CNNs using Keras/TF, with inputs from Kaldi dirs
+#https://github.com/idiap/LR-CNN
+
+#SSP - Speech Signal Processing module (BSD license)
+#This is in Python (sister package libssp is in C++)
+#Feature extraction, vocoder (coding and synthesis) using LP, pitch extraction using Kalman filter.
+#https://github.com/idiap/ssp
+
+#Kaldi-ivector (but this looks like Povey's code from Kaldi?)
+#"...standard i-vector extraction procedure.
+#It contains code to estimate the T-matrix with the conventional EM algorithm for estimation of Eigenvoice matrices, 
+#estimate i-vectors given the T-matrix, features and corresponding posteriors."
+#https://github.com/idiap/kaldi-ivector
+
+#iss-dicts:
+#ISS scripts for dictionary maintenance (puts into HTK form and uses Phonetisaurus)
+#https://github.com/idiap/iss-dicts
+
+#PhonVoc: Phonetic and Phonological vocoding (BSD license)
+#https://github.com/idiap/phonvoc
 
 
 #Audio/speech datasets:

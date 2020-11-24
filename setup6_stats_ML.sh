@@ -14,11 +14,6 @@
 #For each tool, I provide references and/or the main website.
 
 
-tooldir=/opt					                #Each user can change this
-mkdir -m 777 $tooldir
-cd $tooldir
-
-
 #Update
 #sudo apt update									#updates package lists for upgrades
 #sudo apt -y upgrade								#uses the updated package list to update packages on the system (takes a long time the first time)

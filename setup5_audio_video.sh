@@ -477,6 +477,24 @@ cd /opt/ladspa_sdk
 sudo apt-get -y install sonic-visualiser            #Sonic Visualiser
 
 
+#ESPS: Entropic Speech Processing Software.
+#Widely-used in the 1990s, from Oxford Phonetics Lab.
+#Entropic was bought by Microsoft, but source code still available via WaveSurfer.
+#Lots of C source code!
+#http://www.speech.kth.se/wavesurfer
+wget http://www.speech.kth.se/esps/esps.zip -P /opt
+unzip -q /opt/esps.zip -d /opt
+chmod -R 777 /opt/ESPS
+
+
+#WaveSurfer: "...open source tool for sound visualization and manipulation.
+#Typical applications are speech/sound analysis and sound annotation/transcription.
+#WaveSurfer may be extended by plug-ins as well as embedded in other applications."
+#Minimal dependencies.
+#http://www.speech.kth.se/wavesurfer
+sudo apt-get install wavesurfer                     #WaveSurfer
+
+
 #OpenMAX: Open Media Acceleration (sometimes "OMX") from Khronos group
 #Royalty-free API that provides comprehensive streaming media codec and application portability
 #https://www.khronos.org/openmax

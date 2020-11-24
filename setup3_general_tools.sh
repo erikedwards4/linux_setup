@@ -126,6 +126,15 @@ sudo apt-get -y install bibtex2html				#bibtex2html converter
 #latex2html: converts LaTeX documents to HTML format
 
 
+#html2text: an advanced HTML-to-text converter
+sudo apt-get -y install html2text               #html2text converter
+
+
+#Trang: multi-format schema converter based on RELAX NG.
+#https://relaxng.org/jclark/trang.html
+sudo apt-get -y install trang                   #trang
+
+
 #Pandoc (requires texlive): free document converter ("pan-document")
 #Converts between Markdown, HTML, LaTeX, etc.
 sudo apt-get -y install pandoc					#pan-document converter
@@ -146,16 +155,16 @@ sudo apt-get -y install pdfgrep					#pdfgrep
 
 
 #Also consider GNU libiconv (converts text to/from Unicode)
-#cd $tooldir
+#cd /opt
 #wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 #tar -xvf libiconv-1.15.tar.gz
 #rm *.gz
-#chmod -R 777 $tooldir/libiconv-1.15
-#cd $tooldir/libiconv-1.15
+#chmod -R 777 /opt/libiconv-1.15
+#cd /opt/libiconv-1.15
 #./configure
 #make
 #sudo make install
-#chmod -R 777 $tooldir/libiconv-1.15
+#chmod -R 777 /opt/libiconv-1.15
 
 
 #Shell script checker/lint tool. Highly recommended if you write bash scripts.
