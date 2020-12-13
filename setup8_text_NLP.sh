@@ -35,81 +35,99 @@ make
 sudo make install
 
 
-#OpenFST
+#OpenFST [Apache 2.0 license]
+#http://www.openfst.org/twiki/bin/view/FST/WebHome
 cd /opt
-wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.7.3.tar.gz
-tar -xvf /opt/openfst-1.7.3.tar.gz
-sudo rm *.gz
-chmod -R 777 /opt/openfst-1.7.3
-cd /opt/openfst-1.7.3
-./configure --enable-static --enable-shared --enable-far --enable-pdt --enable-mpdt --enable-python
-sed -i 's| -std=c++11| -std=c++14|' ./configure  #required for enable-ngram-fsts
-./configure --enable-static --enable-shared --enable-far --enable-pdt --enable-mpdt --enable-python --enable-ngram-fsts #needed for OpenGRM
+rm -rf /opt/openfst*
+wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.8.0.tar.gz -O - |
+tar -xz -C /opt
+chmod -R 777 /opt/openfst-*
+mv /opt/openfst-* /opt/openfst
+cd /opt/openfst
+sed -i 's| -std=c++11| -std=c++17|' ./configure  #required for enable-ngram-fsts?
+./configure --enable-static=true --enable-shared=true --enable-far=true --enable-pdt=true --enable-mpdt=true --enable-python=true --enable-ngram-fsts=true #needed for OpenGRM
 make
+make check  #optional
 sudo make install
-chmod -R 777 /opt/openfst-1.7.3
+chmod -R 777 /opt/openfst
 
 
-#OpenGRM
+#OpenGRM [Apache 2.0 license]
+#http://www.opengrm.org/twiki/bin/view/GRM/WebHome
 cd /opt
-wget http://www.opengrm.org/twiki/pub/GRM/NGramDownload/ngram-1.3.7.tar.gz
-tar -xvf /opt/ngram-1.3.7.tar.gz
-sudo rm *.gz
-chmod -R 777 /opt/ngram-1.3.7.tar.gz
-cd /opt/ngram-1.3.7
+rm -rf /opt/ngram*
+wget http://www.opengrm.org/twiki/pub/GRM/NGramDownload/ngram-1.3.12.tar.gz -O - |
+tar -xz -C /opt
+mv /opt/ngram-* /opt/ngram
+chmod -R 777 /opt/ngram
+cd /opt/ngram
+sed -i 's| -std=c++11| -std=c++17|' ./configure  #required?
 ./configure
 make
+make check  #optional
 sudo make install
-chmod -R 777 /opt/ngram-1.3.7
+chmod -R 777 /opt/ngram
 
 
-#Thrax
+#Thrax [Apache 2.0 license]
+#http://www.opengrm.org/twiki/bin/view/GRM/Thrax
 cd /opt
-wget http://www.opengrm.org/twiki/pub/GRM/ThraxDownload/thrax-1.3.0.tar.gz
-tar -xvf /opt/thrax-1.3.0.tar.gz
-sudo rm *.gz
-chmod -R 777 /opt/thrax-1.3.0
-cd /opt/thrax-1.3.0
+rm -rf /opt/thrax*
+wget http://www.opengrm.org/twiki/pub/GRM/ThraxDownload/thrax-1.3.5.tar.gz -O - |
+tar -xz -C /opt
+mv /opt/thrax-* /opt/thrax
+chmod -R 777 /opt/thrax
+cd /opt/thrax
 ./configure
 make
+make check  #optional
 sudo make install
-chmod -R 777 /opt/thrax-1.3.0
+chmod -R 777 /opt/thrax
 
 
-#OpenGrm SFst
+#OpenGrm SFst [Apache 2.0 license]
+#http://www.opengrm.org/twiki/bin/view/GRM/SFstLibrary
 cd /opt
-wget http://www.opengrm.org/twiki/pub/GRM/SFstDownload/sfst-1.1.0.tar.gz
-tar -xvf /opt/sfst-1.1.0.tar.gz
-sudo rm *.gz
-chmod -R 777 /opt/sfst-1.1.0
-cd sfst-1.1.0
+rm -rf /opt/sfst*
+wget http://www.opengrm.org/twiki/pub/GRM/SFstDownload/sfst-1.2.0.tar.gz -O - |
+tar -xz -C /opt
+mv /opt/sfst-* /opt/sfst
+chmod -R 777 /opt/sfst
+cd /opt/sfst
 ./configure
 make
+make check  #optional
 sudo make install
-chmod -R 777 /opt/sfst-1.1.0
+chmod -R 777 /opt/sfst
 
 
-#OpenGrm Pynini
+#OpenGrm Pynini [Apache 2.0 license]
+#http://www.opengrm.org/twiki/bin/view/GRM/Pynini
 cd /opt
-wget http://www.opengrm.org/twiki/pub/GRM/PyniniDownload/pynini-2.0.8.tar.gz
-tar -xvf /opt/pynini-2.0.8.tar.gz
-sudo rm *.gz
-chmod -R 777 /opt/pynini-2.0.8
-cd pynini-2.0.8
-sudo python setup.py install
-python setup.py test
+rm -rf /opt/pynini*
+wget http://www.opengrm.org/twiki/pub/GRM/PyniniDownload/pynini-2.1.3.tar.gz -O - |
+tar -xz -C /opt
+mv /opt/pynini-* /opt/pynini
+chmod -R 777 /opt/pynini
+cd /opt/pynini
+sudo python3 setup.py install
+python3 setup.py test
 
 
-#KenLM
+#OpenGrm BaumWelch [Apache 2.0 license]
+#http://www.opengrm.org/twiki/bin/view/GRM/BaumWelch
 cd /opt
-wget -O - https://kheafield.com/code/kenlm.tar.gz | tar -xz
-chmod -R 777 /opt/kenlm
-cd /opt/kenlm
-mkdir -m 777 build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DKENLM_MAX_ORDER=20 -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-make -j2
-chmod -R 777 /opt/kenlm
+rm -rf /opt/baumwelch*
+wget http://www.opengrm.org/twiki/pub/GRM/BaumWelchDownload/baumwelch-0.3.5.tar.gz -O - |
+tar -xz -C /opt
+mv /opt/baumwelch-* /opt/baumwelch
+chmod -R 777 /opt/baumwelch
+cd /opt/baumwelch
+./configure
+make
+make check  #optional
+sudo make install
+chmod -R 777 /opt/baumwelch
 
 
 #MIT LM
@@ -121,6 +139,32 @@ cd /opt/mitlm
 make
 sudo make install
 chmod -R 777 /opt/mitlm
+
+
+#KenLM [GNU Lesser General Public License v3]
+#https://kheafield.com/code/kenlm/
+cd /opt
+wget https://kheafield.com/code/kenlm.tar.gz -O - |
+tar -xz
+chmod -R 777 /opt/kenlm
+cd /opt/kenlm
+mkdir -m 777 build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DKENLM_MAX_ORDER=20 -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+make -j2
+chmod -R 777 /opt/kenlm
+
+
+#MEMT (Multi-Engine Machine Translation) is a system combination scheme [GNU Lesser General Public License v3].
+#"It combines single-best outputs from multiple independent translation systems to
+# form an n-best list of combined translations that improve over individual systems."
+#https://kheafield.com/code/memt
+#https://github.com/kpu/MEMT
+cd /opt
+git clone https://github.com/kpu/MEMT
+chmod -R 777 /opt/MEMT
+./bjam
+MEMT/Alignment/compile.sh
 
 
 #CRFSuite: fast C++ implementation of Conditional Random Fields (CRFs)
@@ -249,6 +293,26 @@ make
 #https://github.com/idiap/hpca
 
 
+#Giza++ (note: they suggest mgiza, which is also avaiilable at Moses)
+cd /opt
+git clone https://github.com/moses-smt/giza-pp
+chmod -R 777 /opt/giza-pp
+cd /opt/giza-pp
+make
+chmod -R 777 /opt/giza-pp
+
+
+#mgiza: word alignment tool based on famous GIZA++, extended to support multi-threading, resume training and incremental training.
+cd /opt
+git clone https://github.com/moses-smt/mgiza
+chmod -R 777 /opt/mgiza
+cd /opt/mgiza/mgizapp
+cmake .
+make
+sudo make install
+chmod -R 777 /opt/mgiza
+
+
 #fast_align: a simple, fast, unsupervised word aligner [Apache 2.0 license]
 #Recommended by above paper [Artetxe et al. 2018].
 #Dyer C, Chahuneau V, Smith NA. (2013). A simple, fast, and effective reparameterization of IBM Model 2. Proc NAACL. ACL: 644-8.
@@ -265,24 +329,35 @@ make
 chmod -R 777 /opt/fast_align
 
 
-#Giza++ (note: they suggest mgiza, which is also avaiilable at Moses)
+#efmaral: efficient Markov Chain word alignment in Python/C [GPL v3 license].
+#Can be used as plug-in replacement for fast_align, but said to outperform fast_align.
+#Östling R, Tiedemann J. 2016. Efficient word alignment with Markov Chain Monte Carlo. Prague Bull Math Linguist. 106(1): 125-46.
 cd /opt
-git clone https://github.com/moses-smt/giza-pp
-chmod -R 777 /opt/giza-pp
-cd giza-pp
-make
-chmod -R 777 /opt/giza-pp
+git clone https://github.com/robertostling/efmaral.git
+chmod -R 777 /opt/efmaral
+cd /opt/efmaral
+sudo python3 setup.py install
+#General link to atools needed for align_symmetrize.sh to work, but can also specify this in one's own script:
+sudo ln -s /opt/fast_align/build/atools /usr/local/bin/atools
+#To test:
+./align.py --help
+python3 /opt/efmaral/scripts/evaluate.py efmaral /opt/efmaral/3rdparty/data/test.{eng.hin.wa,eng,hin} /opt/efmaral/3rdparty/data/trial.{eng,hin}
+/opt/efmaral/scripts/align_symmetrize.sh /opt/efmaral/3rdparty/data/test.{eng,hin,moses} grow-diag-final-and
 
 
-#mgiza: word alignment tool based on famous GIZA++, extended to support multi-threading, resume training and incremental training.
+#Hieralign: Symmetric Word Alignment using Hierarchial Sub-sentential Alignment [Apache 2.0 license]
+#Fast, multi-threaded C++ code with easy-to-use command-line tool Hieralign.
+#"...yet another symmetric word alignment tool simple, fast and unsupervised, it has been
+#implemented with multi-threading in all stages, which makes it run as fast as fast_align."
+#Wang H, Lepage Y. 2017. Hierarchical sub-sentential alignment with IBM Models for statistical phrase-based machine translation. J Nat Lang Process. 24(4): 619-46.
 cd /opt
-git clone https://github.com/moses-smt/mgiza
-chmod -R 777 /opt/mgiza
-cd mgiza/mgizapp
+git clone https://github.com/wang-h/Hieralign
+chmod -R 777 /opt/Hieralign
+cd /opt/Hieralign
 cmake .
 make
-sudo make install
-chmod -R 777 /opt/mgiza
+#To test:
+/opt/Hieralign/Hieralign -h
 
 
 #Moses: famous, most-used MT framework (LGPL license)

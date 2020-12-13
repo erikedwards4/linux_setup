@@ -134,8 +134,8 @@ chmod -R 777 "$kaldir"/tools/kaldi_lm
 
 #Phonetisaurus G2P (BSD 3-Clause license)
 #This fails by several errors; tried to resolve, couldn't
-echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/lib/fst' >> ~/.bashrc
-source ~/.bashrc
+#echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/lib/fst' >> ~/.bashrc
+#source ~/.bashrc
 #sudo apt-get install gcc-5 g++-5
 #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 100
 #sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 100
