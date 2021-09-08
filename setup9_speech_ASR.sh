@@ -37,6 +37,7 @@ ln -s /opt/speex-1.2rc1/build speex
 
 
 #IRSTLM (GNU LGPL licence)
+#http://hlt-mt.fbk.eu/technologies/irstlm
 #Basic install fails (with err msg compatible with: requires older version of gcc).
 #So, after download Kaldi (but not install), do:
 kaldir=/opt/kaldi
@@ -55,6 +56,8 @@ chmod -R 777 /opt/irstlm
 echo "export IRSTLM=$tooldir/irstlm" >> "$kaldir"/tools/extras/env.sh
 echo "export PATH=\${PATH}:\${IRSTLM}/bin" >> "$kaldir"/tools/extras/env.sh
 chmod 777 "$kaldir"/tools/extras/env.sh
+#IRSTLM is now available as a Debian package
+sudo apt-get -y install irstlm          #IRSTLM
 
 
 #SRILM
@@ -161,6 +164,27 @@ cd /opt/g2p
 #python setup.py install --prefix /usr/local
 sudo python setup.py install
 sudo chmod -R 777 /opt/g2p
+
+
+#Phonemizer (GNU General Public License v.3)
+#Allows simple phonemization of words and texts in many languages.
+#Provides both the phonemize command-line tool and the Python function phonemizer.phonemize.
+#Four backends: espeak, espeak-mbrola, festival and segments.
+#   espeak-ng supports a lot of languages and IPA (International Phonetic Alphabet) output.
+#   espeak-ng-mbrola uses the SAMPA phonetic alphabet instead of IPA but does not preserve word boundaries.
+#   festival currently supports only American English. It uses a custom phoneset, but it allows tokenization at the syllable level.
+#   segments is a Unicode tokenizer that build a phonemization from a grapheme to phoneme mapping provided as a file by the user.
+#https://github.com/bootphon/phonemizer
+cd /opt
+sudo apt-get install festival espeak-ng mbrola
+git clone https://github.com/bootphon/phonemizer.git
+chmod -R 777 /opt/phonemizer
+cd /opt/phonemizer
+sudo python3 setup.py install
+phonemize --version
+phonemize --help
+echo "hello world" | phonemize -l'en-us' -b'festival' -p' ' -s'- ' -w'| '
+#Only festival allows phone, syllable and word separators.
 
 
 #Montreal Forced Aligner (MFA)
@@ -636,12 +660,35 @@ make -j4 # (or any number of threads)
 #Watanabe S, ..., Ochiai T. (2018). ESPnet: end-to-end speech processing toolkit. Proc Interspeech. ISCA: 2207-11.
 #Hayashi T, ..., Tan X. (2019). ESPnet-TTS: unified, reproducible, and integrated open source end-to-end text-to-speech toolkit. arXiv. 1910.10909.
 #https://github.com/espnet/espnet
+sudo ln -sf /usr/lib/x86_64-linux-gnu/libcublas.so /usr/local/cuda/lib64/libcublas.so
 cd /opt
 git clone https://github.com/espnet/espnet
 chmod -R 777 /opt/espnet
 cd /opt/espnet/tools
-make KALDI=/opt/kaldi PYTHON_VERSION=3.6.9 TH_VERSION=1.4.0 CUDA_VERSION=10.1
+ln -s /opt/kaldi .
+conda update -n base -c defaults conda
+./setup_anaconda.sh /opt/anaconda espnet 3.8
+./setup_anaconda.sh anaconda espnet 3.8         #I ended up running both of these, and it worked, but probably only one needed
+make
 make check_install
+#Other packages
+. activate_python.sh                            #This changes (base) to (espnet)
+. ./setup_cuda_env.sh /usr/local/cuda
+./installers/install_sctk.sh                #sclite
+./installers/install_sph2pipe.sh            #sph2pipe
+./installers/install_kenlm.sh               #kenlm
+./installers/install_phonemizer.sh          #phonemizer
+./installers/install_warp-ctc.sh            #warpctc_pytorch
+./installers/install_warp-transducer.sh     #warprnnt_pytorch
+./installers/install_warp-rnnt.sh           #warp_rnnt
+./installers/install_gtn.sh                 #GTN (https://github.com/facebookresearch/gtn)
+#./installers/install_fairseq.sh            #fairseq [currently not working]
+#./installers/install_chainer_ctc.sh        #chainer_ctc (Chainer backend only)
+#./installers/install_pyopenjtalk.sh        #pyopenjtalk (Japanese)
+#./installers/install_py3mmseg.sh           #mmseg (Chinese)
+#./installers/install_pesq.sh               #PESQ (perseptual evaluation of speech quality?)
+#./installers/install_beamformit.sh         #BeamformIt (beamforming for multi-channel audio)
+python3 check_install.py
 
 
 #Espresso: open-source end-to-end ASR toolkit (MIT license) based on Pytorch and fairseq (and Kaldi)

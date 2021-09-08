@@ -49,7 +49,12 @@ sed -i 's| -std=c++11| -std=c++17|' ./configure  #required for enable-ngram-fsts
 make
 make check  #optional
 sudo make install
+#To get bash completions (http://www.openfst.org/twiki/bin/view/Contrib/OpenFstBashComp):
+wget http://www.openfst.org/twiki/pub/Contrib/OpenFstBashComp/openfstbc -P /opt/openfst
+source /opt/openfst/openfstbc
 chmod -R 777 /opt/openfst
+#Now available as a Debian package
+sudo apt-get -y install libfst-dev libfst-tools
 
 
 #OpenGRM [Apache 2.0 license]
@@ -67,6 +72,8 @@ make
 make check  #optional
 sudo make install
 chmod -R 777 /opt/ngram
+#Now available as a Debian package
+sudo apt-get -y install libngram-dev libngram-tools
 
 
 #Thrax [Apache 2.0 license]
@@ -150,9 +157,106 @@ chmod -R 777 /opt/kenlm
 cd /opt/kenlm
 mkdir -m 777 build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DKENLM_MAX_ORDER=20 -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DKENLM_MAX_ORDER=16 -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 make -j2
 chmod -R 777 /opt/kenlm
+
+
+#CMU-Cambridge Statistical Language Modeling Toolkit (CMU-Cam SLMTK) v2 [open-source, but no license given].
+#Major update to v1 [Rosenfeld 1994], in C with command-line tools [Clarkson and Rosenfeld 1997].
+#Perhaps only novel ability is can explicity use "context cues", such as sentence and paragraph start (<s>, <p>) and others.
+#The source-code in C is included, so this would be go-to place to start programming oneself!
+#The documentation has good description of discounting, etc., and has good references.
+#http://www.speech.cs.cmu.edu/SLM/toolkit_documentation.html
+#Clarkson P, Rosenfeld R. 1997. Statistical language modeling using the CMU-Cambridge toolkit. Proc Eurospeech. ISCA: 2707-10.
+#http://www.speech.cs.cmu.edu/SLM/toolkit.html
+cd /opt
+wget http://www.speech.cs.cmu.edu/SLM/CMU-Cam_Toolkit_v2.tar.gz -O - |
+tar -xz
+chmod -R 777 /opt/CMU-Cam_Toolkit_v2
+cd /opt/CMU-Cam_Toolkit_v2/src
+sed -i 's|^#BYTESWAP_FLAG|BYTESWAP_FLAG|' /opt/CMU-Cam_Toolkit_v2/src/Makefile              #Change big- -> little-endian
+sed -i 's|^#define STD_MEM 100|#define STD_MEM 8000|' /opt/CMU-Cam_Toolkit_v2/src/toolkit.h #I assume at least 8 GB RAM
+make install
+
+
+#RNNLM: RNN LM C/C++ code from Mikolov [Copyright notice indicates completey open-source, but no license]
+#Mikolov T, Kombrink S, Deoras A, Burget L, Èernocký J. 2011. RNNLM - recurrent neural network language modeling toolkit. Proc ASRU Wrkshp. IEEE: 196-201.
+#https://github.com/mspandit/rnnlm
+cd /opt
+mkdir -m 777 /opt/rnnlm
+cd /opt/rnnlm
+wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnnlm-0.3e.tgz -P /opt/rnnlm
+tar -xzf /opt/rnnlm/rnnlm-0.3e.tgz
+wget http://www.fit.vutbr.cz/~imikolov/rnnlm/simple-examples.tgz -P /opt/rnnlm
+tar -xzf /opt/rnnlm/simple-examples.tgz
+wget http://www.fit.vutbr.cz/~imikolov/rnnlm/rnn-rt07-example.tar.gz -P /opt/rnnlm
+tar -xzf /opt/rnnlm/rnn-rt07-example.tar.gz
+rm -f /opt/rnnlm/{simple-examples.tgz,rnn-rt07-example.tar.gz}
+chmod -R 777 /opt/rnnlm
+make CC=g++
+#To test:
+/opt/rnnlm/rnnlm
+#From example.sh
+/opt/rnnlm/rnnlm -train train -valid valid -rnnlm model -hidden 15 -rand-seed 1 -debug 2 -class 100 -bptt 4 -bptt-block 10 -direct-order 3 -direct 2 -binary
+
+
+#faster-rnnlm: RNN LM C++ toolbox from Yandex [Apache 2.0].
+#"...can be trained on huge datasets (several billions of words) and very large vocabularies (several hundred thousands) and used in real-world ASR and MT problems.
+# ...supports such praised setups as ReLU+DiagonalInitialization [Le et al. 2015], GRU [Chung et al. 2014], NCE [Chen et al. 2015], and RMSProp [Tieleman & Hinton 2012]."
+#https://github.com/yandex/faster-rnnlm
+cd /opt
+git clone https://github.com/yandex/faster-rnnlm
+chmod -R 777 /opt/faster-rnnlm
+cd /opt/faster-rnnlm
+#./build.sh
+sed -i 's|3.2.4|3.3.9|' /opt/faster-rnnlm/build.sh
+curl -L "https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.bz2" -o /opt/faster-rnnlm/eigen-3.3.9.tar.bz2
+tar -xjf /opt/faster-rnnlm/eigen-3.3.9.tar.bz2 -C /opt/faster-rnnlm
+mv /opt/faster-rnnlm/eigen* /opt/faster-rnnlm/eigen3
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8
+sudo update-alternatives --config gcc   #Then choose gcc-8
+sudo update-alternatives --config g++   #Then choose g++-8
+cd /opt/faster-rnnlm/faster-rnnlm
+make -j
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+sudo update-alternatives --config gcc   #Then choose gcc-9
+sudo update-alternatives --config g++   #Then choose g++-9
+#To check:
+/opt/faster-rnnlm/faster-rnnlm/rnnlm
+
+
+#CUED-RNNLM: RNN LM from CUED (Cambridge Univ. Eng. Dept.)
+#"...implementation of RNNLM training (on GPU), and efficient evaluation(on CPU).
+# ...support LSTM, GRU, Highway structure, as well as more flexible deep structure."
+#The recent v1.1 supports succeeding-word RNNLM (su-RNNLM) with future context [Chen et al. 2018].
+#Liu X, Wang Y, Chen X, Gales MJ, Woodland PC. 2014. Efficient lattice rescoring using recurrent neural network language models. Proc ICASSP. IEEE: 4908-12.
+#Chen X, Liu X, Gales MJ, Woodland PC. 2015. Recurrent neural network language model training with noise contrastive estimation for speech recognition. Proc ICASSP. IEEE: 5411-5.
+#Chen X, Liu X, Qian Y, Gales MJ, Woodland PC. 2016. CUED-RNNLM—An open-source toolkit for efficient training and evaluation of recurrent neural network language models. Proc ICASSP. IEEE: 6000-4.
+#Chen X, Liu X, Wang Y, Ragni A, Wong JH, Gales MJ. 2019. Exploiting future word contexts in neural network language models for speech recognition. IEEE/ACM Trans Audio Speech Lang Process. 27(9): 1444-54.
+#http://mi.eng.cam.ac.uk/projects/cued-rnnlm
+cd /opt
+wget --no-check-certificate http://mi.eng.cam.ac.uk/projects/cued-rnnlm/cued-rnnlm.v1.1.tar.gz 1> /opt/cued-rnnlm.v1.1.tar.gz 2> /opt/tmp.log
+#curl -sL http://mi.eng.cam.ac.uk/projects/cued-rnnlm/cued-rnnlm.v1.1.tar.gz -o /opt/cued-rnnlm.v1.1.tar.gz
+tar -xzf /opt/cued-rnnlm.v1.1.tar.gz
+#Can't get download working.
+
+
+#rnnlm2wfst: converts RNNLMs to WFSTs, using K-means discretization [Apache 2.0 license]
+#Lecorvé G, Motlicek P. 2012. Conversion of recurrent neural network language models to weighted finite state transducers for automatic speech recognition. Proc INTERSPEECH. ISCA: 1668-71.
+#https://github.com/glecorve/rnnlm2wfst
+cd /opt
+git clone https://github.com/glecorve/rnnlm2wfst
+chmod -R 777 /opt/rnnlm2wfst
+cd /opt/rnnlm2wfst
+cd /opt/rnnlm2wfst/kmeans
+make
+cd /opt/rnnlm2wfst/rnnlm-0.2b
+sed -i 's|OPENFST:=../../openfst-1.3.2/|OPENFST:=/opt/openfst/|' /opt/rnnlm2wfst/rnnlm-0.2b/src/makefile
+make USE_BLAS=1
+#Unfortunately, fails; also if use openfst-1.3.2 (although different error).
 
 
 #MEMT (Multi-Engine Machine Translation) is a system combination scheme [GNU Lesser General Public License v3].
@@ -163,7 +267,11 @@ chmod -R 777 /opt/kenlm
 cd /opt
 git clone https://github.com/kpu/MEMT
 chmod -R 777 /opt/MEMT
-./bjam
+#./bjam #this fails due to icu-config not found
+cd /opt/MEMT/jam-files/engine
+./build.sh
+cp -f bin.*/bjam ../bjam
+cd /opt/MEMT
 MEMT/Alignment/compile.sh
 
 
@@ -263,6 +371,7 @@ make
 #Cited by sense2vec for: each word can have more than one meaning (like noun/verb polysemy),
 #so this first uses clustering using context to decide how many meanings a word can have.
 #This is actually very good for g2p case, because each grapheme or each phoneme has multiple meanings.
+#Ling W, Dyer C, Black AW, Trancoso I. 2015. Two/too simple adaptations of word2vec for syntax problems. Proc Conf NAACL-HLT. ACL: 1299-1304.
 #https://github.com/wlin12/wang2vec
 cd /opt
 git clone https://github.com/wlin12/wang2vec
@@ -289,11 +398,40 @@ cd /opt/phrase2vec
 make
 
 
+#ClusterCat: fast, flexible word clustering software in modern C [license either GNU LGPL v3, or Mozilla Public License v2]
+#Induces word classes (or vecs) from unannotated text.
+#"Word classes are unsupervised part-of-speech tags, requiring no manually-annotated corpus.
+# Words are grouped together that share syntactic/semantic similarities. They are used in many dozens of
+# applications within natural language processing, machine translation, neural net training, and related fields."
+#Dehdari J, Tan L, van Genabith J. 2016. BIRA: Improved predictive exchange word clustering. Proc Conf NAACL-HLT. ACL: 1169-74.
+cd /opt
+git clone https://github.com/jonsafari/clustercat
+chmod -R 777 /opt/clustercat
+cd /opt/clustercat
+make
+#To test
+/opt/clustercat/bin/clustercat --help
+
+
+#Brown-cluster: C++ implementation of the Brown hierarchical word clustering algorithm.
+#Brown PF, Della Pietra VJ, Desouza PV, Lai JC, Mercer RL. 1992. Class-based n-gram models of natural language. Comput Linguist. 18(4): 467-80.
+#Liang P. 2005. Semi-supervised learning for natural language. Ph.D. Thesis. Dept. of EECS, MIT.
+#https://github.com/percyliang/brown-cluster
+cd /opt
+git clone https://github.com/percyliang/brown-cluster
+chmod -R 777 /opt/brown-cluster
+cd /opt/brown-cluster
+make
+#To test:
+/opt/brown-cluster/wcluster --help
+
+
 #hpca: C++ toolkit providing an efficient implementation of the Hellinger PCA for computing word embeddings
 #https://github.com/idiap/hpca
 
 
 #Giza++ (note: they suggest mgiza, which is also avaiilable at Moses)
+#Also does word classes with mkcls.
 cd /opt
 git clone https://github.com/moses-smt/giza-pp
 chmod -R 777 /opt/giza-pp
@@ -303,6 +441,7 @@ chmod -R 777 /opt/giza-pp
 
 
 #mgiza: word alignment tool based on famous GIZA++, extended to support multi-threading, resume training and incremental training.
+#Also does word classes with mkcls.
 cd /opt
 git clone https://github.com/moses-smt/mgiza
 chmod -R 777 /opt/mgiza
@@ -369,6 +508,29 @@ chmod -R 777 /opt/mosesdecoder
 cd /opt/mosesdecoder
 ./bjam --no-xmlrpc-c --with-cmph=/opt/cmph --with-irstlm=/opt/irstlm #--with-boost=/opt/boost_1_67_0 
 chmod -R 777 /opt/mosesdecoder
+
+
+#Thot: statistical MT framework (LGPL license).
+#Can be installed with KenLM, but doesn't work for newest version of KenLM.
+#Can estimate IBM 1, IBM 2 and HMM-based word alignment models, and does phrase-based.
+#The overall translation model is generative, as well-explained in the doc.
+#Main features are incremental, multi-LM, and interactive methods.
+#But, overall is a 1-person project that lacks in great sophistication/features.
+#https://github.com/daormar/thot
+#Ortiz-Martínez D, García-Varea I, Casacuberta F. 2005. Thot: a toolkit to train phrase-based models for statistical machine translation. Proc 10th MT Summit. AAMT: 141-8.
+#Ortiz-Martínez D, García-Varea I, Casacuberta F. 2008. Phrase-level alignment generation using a smoothed loglinear phrase-based statistical alignment model. Proc 12th EAMT Conf, vol. 8. EAMT: 160-9.
+#Ortiz-Martínez D, Casacuberta F. 2014. The new thot toolkit for fully-automatic and interactive statistical machine translation. Proc 14th Conf EACL. ACL: 45-8.
+cd /opt
+git clone https://github.com/daormar/thot.git
+chmod -R 777 /opt/thot
+cd /opt/thot
+./reconf
+./configure --prefix=/opt/thot --enable-ibm2-alig #--with-kenlm=/opt/kenlm
+make
+make install
+#To test:
+make installcheck
+/opt/thot/bin/thot_lm_train --help
 
 
 #Most-known neural attention-based MT frameworks, Nematus and OpenNMT:
@@ -516,8 +678,11 @@ python -m pip install --user sacrebleu sentencepiece
 
 
 #fairseq (MIT license)
-#https://github.com/pytorch/fairseq
 #This also gives command-line tools: fairseq-preprocess, fairseq-train, fairseq-generate, fairseq-score
+#Also see Percy Liang's seq2seq-utils for fairseq (https://github.com/percyliang/seq2seq-utils).
+#https://github.com/pytorch/fairseq
+sudo pip install h5py
+sudo pip install soundfile
 python -m pip install fairseq
 #Can also install from source and develop locally:
 cd /opt

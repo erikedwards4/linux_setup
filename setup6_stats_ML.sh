@@ -301,3 +301,18 @@ sudo apt-get -y install libfann-dev			#FANN
 #http://taku910.github.io/zinnia/
 #sudo apt-get -y install libzinnia0v5       #Zinnia library
 
+
+#TiMBL: Tilburg Memory-Based Learner [GNU GPL v3] from:
+#Centre for Language and Speech Technology, Radboud University
+#Induction of Linguistic Knowledge Research Group, Tilburg University
+#CLiPS Computational Linguistics Group, University of Antwerp
+#Looks like outstanding work! For all things memory-based (k-NN, lazy learning, etc.).
+#Meant for NLP and discrete-feature problems, but can be used for all cases (it appears to change continuous features to discrete).
+#"For over fifteen years TiMBL has been mostly used in natural language processing as a machine learning classifier component,
+# but its use extends to virtually any supervised machine learning domain. Due to its particular decision-tree-based implementation,
+# TiMBL is in many cases far more efficient in classification than a standard k-nearest neighbor algorithm would be."
+#Daelemans W, Van den Bosch A. 2005. Memory-based language processing. Cambridge, UK: Cambridge University Press.
+#Daelemans W, Zavrel J, Van Der Sloot K, Van den Bosch A. 2018. TiMBL: Tilburg Memory-Based Learner, version 6.4, Reference Guide. ILK Technical Report, ILK 11-01. Tilburg University, Radboud University: 67 p.
+#https://languagemachines.github.io/timbl
+sudo apt-get -y install timbl               #TiMBL
+

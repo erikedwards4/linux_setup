@@ -33,12 +33,30 @@
 #Download to /opt
 cd /opt
 git clone https://github.com/imneme/pcg-cpp
-chmod -R 777 pcg-cpp                            #can stop here, since include-only library
-cd pcg-cpp
+chmod -R 777 /opt/pcg-cpp                       #can stop here, since include-only library
+cd /opt/pcg-cpp
 make                                            #for demo programs and tests
 make test
 #Since 2020 LTS:
 sudo apt-get -y install libpcg-cpp-dev          #PCG random
+
+#PCG random full C library: main functionality in C [Apache 2.0 or MIT]
+#https://www.pcg-random.org/download.html#c-implementation
+cd /opt
+git clone https://github.com/imneme/pcg-c
+chmod -R 777 /opt/pcg-c
+cd /opt/pcg-c
+make
+make test
+
+#PCG random minimal C library: core subset of functionality in C [Apache 2.0]
+#https://www.pcg-random.org/using-pcg-c-basic.html
+#https://github.com/imneme/pcg-c-basic
+cd /opt
+git clone https://github.com/imneme/pcg-c-basic
+chmod -R 777 /opt/pcg-c-basic
+cd /opt/pcg-c-basic
+make
 
 #ArrayFire: high performance C++ library for GPU and parallel computing with an easy-to-use API
 #Download .sh from website to /opt.

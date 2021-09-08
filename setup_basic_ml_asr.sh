@@ -626,16 +626,16 @@ then
 
     #Intel MKL (Intel Math Kernel Library) (required by Kaldi)
     #https://software.intel.com/en-us/mkl
-    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
-    sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
-    sudo wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get -y install intel-mkl-2019.4-070
-    sudo apt-get -y install intel-ipp-2019.4-070
-    sudo apt-get -y install intel-tbb-2019.6-070
-    sudo apt-get -y install intel-daal-2019.4-070
-    sudo apt-get -y install intel-mpi-2019.4-070
+    #wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+    #sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+    #sudo wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
+    #sudo apt-get update
+    #sudo apt-get upgrade
+    #sudo apt-get -y install intel-mkl-2019.4-070
+    #sudo apt-get -y install intel-ipp-2019.4-070
+    #sudo apt-get -y install intel-tbb-2019.6-070
+    #sudo apt-get -y install intel-daal-2019.4-070
+    #sudo apt-get -y install intel-mpi-2019.4-070
     sudo apt-get -y install intelpython2
     sudo apt-get -y install intelpython3
 

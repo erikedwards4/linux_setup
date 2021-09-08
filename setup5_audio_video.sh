@@ -401,6 +401,56 @@ cd /opt/python_speech_features
 sudo python /opt/python_speech_features/setup.py develop
 
 
+#FFTW: Fastest Fourier Transform in the West
+#Widely used FFT code in C from MIT,
+#but under a GNU GPL v.2 that restricts commercial use ($7500-$12500 fee).
+#Frigo M, Johnson SG. 1998. FFTW: an adaptive software architecture for the FFT. Proc ICASSP. IEEE. vol. 3: 1381-4.
+#https://www.fftw.org
+sudo apt-get install libfftw3-dev           #FFTW3
+
+
+#FFTS: Fastest Fourier Transform in the South [open license but not specified].
+#Basic, fully-open-source FFT library in C from A. Blake at Univ. Waikato, New Zealand.
+#Blake AM, Witten IH, Cree MJ. 2013. The Fastest Fourier Transform in the South. IEEE Trans Signal Process. 61(19): 4707-16.
+#https://github.com/anthonix/ffts
+cd /opt
+git clone https://github.com/anthonix/ffts
+chmod -R 777 /opt/ffts
+cd /opt/ffts
+#cmake -DCMAKE_INSTALL_PREFIX=/opt/ffts
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local
+make all
+sudo make install
+sudo chmod -R 777 /usr/local/include/ffts
+
+
+#KISS FFT: Keep-it-simple-stupid FFT library [BSD license]
+#Basic, fully-open-source FFT library in C from M. Borgerding.
+#For real-valued input, only even-length nfft supported.
+#Has fast filter and fast convolution by overlap-scrap mathod.
+#Will soon be available by sudo apt-get, along with command-line tools.
+#https://github.com/mborgerding/kissfft
+cd /opt
+git clone https://github.com/mborgerding/kissfft
+chmod -R 777 /opt/kissfft
+cd /opt/kissfft
+cmake -DCMAKE_INSTALL_PREFIX=/opt/kiss
+make all
+sudo make install
+sudo chmod -R 777 /opt/kissfft
+
+
+#NFFT library: Nonequispaced fast Fourier transform (or nonuniform fast Fourier transform, NUFFT) library in C.
+#Under the GNU GPL, v. 2, and: "The NFFT depends on the FFTW library, ..."
+#Most widely-used library for NFFT, also has Matlab, Python, etc. bindings.
+#Keiner J, Kunis S, Potts D. 2009. Using NFFT 3 -- a software library for various nonequispaced fast Fourier transforms. ACM Trans Math Softw. 36(4): 1-30.
+#https://www-user.tu-chemnitz.de/~potts/nfft
+#https://github.com/NFFT/nfft
+sudo apt-get install libnfft3-dev               #NFFT library
+
+
+
+
 #Yaffe: audio features extraction toolbox in C++ (uses Eigen), with Python and Matlab bindings
 #From Telecom Paristech/AAO [GPL v3 license].
 #Has usual features (AC, LPC, LSF, MFCC, ZCR, energy, envelope)
