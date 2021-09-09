@@ -414,10 +414,10 @@ sudo apt-get -y install git						#git
 #Koranne S. 2011. Handbook of open source tools. New York: Springer.
 #Zhang X, Wang Q, Saar W. 2016. OpenBLAS: an optimized BLAS library. http://www.openblas.net.
 #http://www.netlib.org/lapack
-sudo apt-get -y install libblas-dev				#BLAS (Basic Linear Algebra Subroutines) (also installs libblas3)
-sudo apt-get -y install libopenblas-dev			#open BLAS
 sudo apt-get -y install liblapack-dev			#LAPACK: linear algebra package
 sudo apt-get -y install liblapacke-dev          #LAPACK: (this version required for ArrayFire)
+sudo apt-get -y install libblas-dev				#BLAS (Basic Linear Algebra Subroutines) (also installs libblas3)
+sudo apt-get -y install libopenblas-dev			#open BLAS
 sudo apt-get -y install libatlas-base-dev		#ATLAS (Automatically Tuned Linear Algebra Software)
 
 

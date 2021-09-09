@@ -626,11 +626,11 @@ then
 
     #Intel MKL (Intel Math Kernel Library) (required by Kaldi)
     #https://software.intel.com/en-us/mkl
-    #wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
-    #sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
-    #sudo wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
-    #sudo apt-get update
-    #sudo apt-get upgrade
+    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+    sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
+    sudo wget https://apt.repos.intel.com/setup/intelproducts.list -O /etc/apt/sources.list.d/intelproducts.list
+    sudo apt-get update
+    sudo apt-get upgrade
     #sudo apt-get -y install intel-mkl-2019.4-070
     #sudo apt-get -y install intel-ipp-2019.4-070
     #sudo apt-get -y install intel-tbb-2019.6-070
@@ -765,9 +765,10 @@ if [[ "$stage" == [03] ]]
 then
     #Cereal serialization C++ library
     #https://uscilab.github.io/cereal
-    cd /opt
-    git clone https://github.com/USCiLab/cereal
-    chmod -R 777 /opt/cereal
+    sudo apt-get -y install cereal
+    #cd /opt
+    #git clone https://github.com/USCiLab/cereal
+    #chmod -R 777 /opt/cereal
 
     #PyTorch C++ API
     #This is for the CPU-only version (try GPU version later).
@@ -795,11 +796,11 @@ then
 
     #OpenFST
     cd /opt
-    wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.7.6.tar.gz
-    tar -xvf /opt/openfst-1.7.6.tar.gz
-    rm /opt/openfst-1.7.6.tar.gz
-    chmod -R 777 /opt/openfst-1.7.6
-    mv /opt/openfst-1.7.6 /opt/openfst
+    wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.7.2.tar.gz
+    tar -xvf /opt/openfst-1.7.2.tar.gz
+    rm /opt/openfst-1.7.2.tar.gz
+    chmod -R 777 /opt/openfst-1.7.2
+    mv /opt/openfst-1.7.2 /opt/openfst
     cd /opt/openfst
     #./configure --enable-static --enable-shared --enable-far --enable-pdt --enable-mpdt --enable-python
     sed -i 's| -std=c++11| -std=c++14|' ./configure  #required for enable-ngram-fsts
@@ -865,23 +866,15 @@ then
     make
     chmod -R 777 /opt/word2vec
 
-    #CRFSuite: fast C++ implementation of Conditional Random Fields (CRFs)
-    #Linear-chain (1st-order Markov) CRFs.
-    #Excellent training methods, simple command-line use, performance evaluation.
-    #From maker of widely-used L-BFGS lib
-    #http://www.chokkan.org/software/crfsuite
-    wget https://github.com/downloads/chokkan/crfsuite/crfsuite-0.12.tar.gz
-    tar -xzf /opt/crfsuite-0.12.tar.gz
-    rm /opt/crfsuite-0.12.tar.gz
-    chmod -R 777 crfsuite-0.12
-    mv /opt/crfsuite-0.12 /opt/crfsuite
-    cd /opt/crfsuite
+    #Phonetisaurus G2P (BSD 3-Clause license)
+    cd /opt
+    git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
+    chmod -R 777 /opt/Phonetisaurus
+    cd Phonetisaurus
     ./configure
     make
     sudo make install
-    sudo ln -s /usr/local/lib/libcrfsuite-0.12.so /usr/lib/libcrfsuite-0.12.so
-    sudo ln -s /usr/local/lib/libcqdb-0.12.so /usr/lib/libcqdb-0.12.so
-    sudo ln -s /usr/local/bin/crfsuite /usr/bin/crfsuite-stdin
+    chmod -R 777 /opt/Phonetisaurus
 
     #Speex (needed by Kaldi, even though already sudo apt-get -y installed)
     #Valin J-M. 2007. The Speex codex manual: version 1.2 beta 3. xiph.org.
@@ -959,18 +952,19 @@ then
     sudo apt-get -y install gcc-6 g++-6
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 100
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 100
-    ./configure --shared --static --static-math --mathlib=MKL --mkl-root="/opt/intel/mkl" --use-cuda --cudatk-dir="/usr/local/cuda" --speex-root="/opt/speex/build"
+    ./configure --shared --static --static-math --mathlib=OPENBLAS --use-cuda --cudatk-dir="/usr/local/cuda" --speex-root="/opt/speex/build"
+    #./configure --shared --static --static-math --mathlib=MKL --mkl-root="/opt/intel/mkl" --use-cuda --cudatk-dir="/usr/local/cuda" --speex-root="/opt/speex/build"
     make -j clean depend 
     make -j 8
     sudo chmod -R 777 /opt/kaldi
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 100
-    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 100
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
+    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
 
     #Kaldi: Part III
     #I found later that I have to add links to OpenFST libraries
-    ln -s /usr/local/lib/libfst.so.19 /opt/kaldi/tools/openfst-1.6.7/lib
-    ln -s /usr/local/lib/libfstscript.so.19 /opt/kaldi/tools/openfst-1.6.7/lib
-    ln -s /usr/local/lib/libfstfar.so.19 /opt/kaldi/tools/openfst-1.6.7/lib
-    ln -s /usr/local/lib/libfstfarscript.so.19 /opt/kaldi/tools/openfst-1.6.7/lib
+    ln -s /usr/local/lib/libfst.so /opt/kaldi/tools/openfst-1.7.2/lib
+    ln -s /usr/local/lib/libfstscript.so /opt/kaldi/tools/openfst-1.7.2/lib
+    ln -s /usr/local/lib/libfstfar.so /opt/kaldi/tools/openfst-1.7.2/lib
+    ln -s /usr/local/lib/libfstfarscript.so /opt/kaldi/tools/openfst-1.7.2/lib
 fi
 
